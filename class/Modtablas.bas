@@ -1,10 +1,10 @@
 Attribute VB_Name = "ModificarCampos"
 Option Explicit
 
-Public VGCNx As ADODB.Connection             'Conexion de la BD empresa
-Public VGcnxCT As ADODB.Connection        'Conexion de Contabilidad
-Public VGGeneral As ADODB.Connection      'Conexion de la BD Generales
-Public VGConfig As ADODB.Connection      'Conexion de la BD de configuracion
+Public VGCNx As New ADODB.Connection             'Conexion de la BD empresa
+Public VGcnxCT As New ADODB.Connection        'Conexion de Contabilidad
+Public VGGeneral As New ADODB.Connection      'Conexion de la BD Generales
+Public VGConfig As New ADODB.Connection      'Conexion de la BD de configuracion
 Public VGCadenaReport2 As String
 
 Public VGnumniveles As Integer               'Número de Niveles del Plan de Cuentas
