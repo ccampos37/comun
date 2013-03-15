@@ -15,12 +15,130 @@ Begin VB.Form Frmusuarios
    ScaleHeight     =   5880
    ScaleWidth      =   7215
    StartUpPosition =   3  'Windows Default
+   Begin VB.Frame Frame1 
+      Height          =   4500
+      Left            =   240
+      TabIndex        =   5
+      Top             =   120
+      Width           =   6735
+      Begin VB.TextBox Text1 
+         Height          =   285
+         IMEMode         =   3  'DISABLE
+         Index           =   2
+         Left            =   1920
+         MaxLength       =   8
+         PasswordChar    =   "*"
+         TabIndex        =   10
+         Top             =   1320
+         Width           =   1455
+      End
+      Begin VB.TextBox Text1 
+         Height          =   285
+         Index           =   0
+         Left            =   1920
+         MaxLength       =   8
+         TabIndex        =   7
+         Top             =   360
+         Width           =   1455
+      End
+      Begin VB.TextBox Text1 
+         Height          =   285
+         IMEMode         =   3  'DISABLE
+         Index           =   3
+         Left            =   5040
+         MaxLength       =   8
+         PasswordChar    =   "*"
+         TabIndex        =   11
+         Top             =   1320
+         Width           =   1455
+      End
+      Begin VB.TextBox Text1 
+         Height          =   285
+         Index           =   1
+         Left            =   1920
+         TabIndex        =   8
+         Top             =   840
+         Width           =   3015
+      End
+      Begin MSComctlLib.ImageList ImageList1 
+         Left            =   -45
+         Top             =   4620
+         _ExtentX        =   1005
+         _ExtentY        =   1005
+         BackColor       =   -2147483643
+         ImageWidth      =   13
+         ImageHeight     =   13
+         MaskColor       =   12632256
+         _Version        =   393216
+         BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+            NumListImages   =   2
+            BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "frmUsuarios.frx":08CA
+               Key             =   "Cerrar"
+            EndProperty
+            BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+               Picture         =   "frmUsuarios.frx":09C6
+               Key             =   "Abrir"
+            EndProperty
+         EndProperty
+      End
+      Begin MSComctlLib.TreeView TreeView1 
+         Height          =   2700
+         Left            =   105
+         TabIndex        =   16
+         Top             =   1665
+         Width           =   6450
+         _ExtentX        =   11377
+         _ExtentY        =   4763
+         _Version        =   393217
+         Indentation     =   882
+         Style           =   7
+         ImageList       =   "ImageList1"
+         BorderStyle     =   1
+         Appearance      =   1
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Confirmar            :"
+         Height          =   255
+         Index           =   2
+         Left            =   3480
+         TabIndex        =   14
+         Top             =   1320
+         Width           =   1335
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Password Usuario   :"
+         Height          =   255
+         Index           =   1
+         Left            =   360
+         TabIndex        =   13
+         Top             =   1320
+         Width           =   1575
+      End
+      Begin VB.Label Label1 
+         Caption         =   "Código Usuario       :"
+         Height          =   255
+         Index           =   0
+         Left            =   360
+         TabIndex        =   12
+         Top             =   360
+         Width           =   1455
+      End
+      Begin VB.Label Label2 
+         Caption         =   "Nombre Usuario  :"
+         Height          =   255
+         Left            =   360
+         TabIndex        =   9
+         Top             =   840
+         Width           =   1335
+      End
+   End
    Begin VB.CommandButton cmdBotones 
       Caption         =   "&Nuevo"
       Height          =   915
       Index           =   0
       Left            =   375
-      Picture         =   "frmUsuarios.frx":08CA
+      Picture         =   "frmUsuarios.frx":0AC2
       Style           =   1  'Graphical
       TabIndex        =   1
       Top             =   4800
@@ -31,7 +149,7 @@ Begin VB.Form Frmusuarios
       Height          =   915
       Index           =   1
       Left            =   1695
-      Picture         =   "frmUsuarios.frx":0D0C
+      Picture         =   "frmUsuarios.frx":0F04
       Style           =   1  'Graphical
       TabIndex        =   2
       Top             =   4785
@@ -42,7 +160,7 @@ Begin VB.Form Frmusuarios
       Height          =   915
       Index           =   2
       Left            =   3015
-      Picture         =   "frmUsuarios.frx":114E
+      Picture         =   "frmUsuarios.frx":1346
       Style           =   1  'Graphical
       TabIndex        =   3
       Top             =   4800
@@ -53,7 +171,7 @@ Begin VB.Form Frmusuarios
       Height          =   915
       Index           =   3
       Left            =   4335
-      Picture         =   "frmUsuarios.frx":1590
+      Picture         =   "frmUsuarios.frx":1788
       Style           =   1  'Graphical
       TabIndex        =   4
       Top             =   4785
@@ -65,7 +183,7 @@ Begin VB.Form Frmusuarios
       Height          =   915
       Index           =   5
       Left            =   5640
-      Picture         =   "frmUsuarios.frx":19D2
+      Picture         =   "frmUsuarios.frx":1BCA
       Style           =   1  'Graphical
       TabIndex        =   6
       Top             =   4785
@@ -74,9 +192,9 @@ Begin VB.Form Frmusuarios
    Begin VB.Frame Frame0 
       BorderStyle     =   0  'None
       Height          =   4410
-      Left            =   225
+      Left            =   345
       TabIndex        =   15
-      Top             =   210
+      Top             =   330
       Width           =   6810
       Begin MSDataGridLib.DataGrid DataGrid1 
          Height          =   4095
@@ -141,124 +259,6 @@ Begin VB.Form Frmusuarios
             BeginProperty Column01 
             EndProperty
          EndProperty
-      End
-   End
-   Begin VB.Frame Frame1 
-      Height          =   4500
-      Left            =   240
-      TabIndex        =   5
-      Top             =   120
-      Width           =   6735
-      Begin VB.TextBox Text1 
-         Height          =   285
-         IMEMode         =   3  'DISABLE
-         Index           =   2
-         Left            =   1920
-         MaxLength       =   8
-         PasswordChar    =   "*"
-         TabIndex        =   10
-         Top             =   1320
-         Width           =   1455
-      End
-      Begin VB.TextBox Text1 
-         Height          =   285
-         Index           =   0
-         Left            =   1920
-         MaxLength       =   8
-         TabIndex        =   7
-         Top             =   360
-         Width           =   1455
-      End
-      Begin VB.TextBox Text1 
-         Height          =   285
-         IMEMode         =   3  'DISABLE
-         Index           =   3
-         Left            =   5040
-         MaxLength       =   8
-         PasswordChar    =   "*"
-         TabIndex        =   11
-         Top             =   1320
-         Width           =   1455
-      End
-      Begin VB.TextBox Text1 
-         Height          =   285
-         Index           =   1
-         Left            =   1920
-         TabIndex        =   8
-         Top             =   840
-         Width           =   3015
-      End
-      Begin MSComctlLib.ImageList ImageList1 
-         Left            =   -45
-         Top             =   4620
-         _ExtentX        =   1005
-         _ExtentY        =   1005
-         BackColor       =   -2147483643
-         ImageWidth      =   13
-         ImageHeight     =   13
-         MaskColor       =   12632256
-         _Version        =   393216
-         BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
-            NumListImages   =   2
-            BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmUsuarios.frx":1E14
-               Key             =   "Cerrar"
-            EndProperty
-            BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-               Picture         =   "frmUsuarios.frx":1F10
-               Key             =   "Abrir"
-            EndProperty
-         EndProperty
-      End
-      Begin MSComctlLib.TreeView TreeView1 
-         Height          =   2700
-         Left            =   105
-         TabIndex        =   16
-         Top             =   1665
-         Width           =   6450
-         _ExtentX        =   11377
-         _ExtentY        =   4763
-         _Version        =   393217
-         Indentation     =   882
-         Style           =   7
-         ImageList       =   "ImageList1"
-         BorderStyle     =   1
-         Appearance      =   1
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Confirmar            :"
-         Height          =   255
-         Index           =   2
-         Left            =   3480
-         TabIndex        =   14
-         Top             =   1320
-         Width           =   1335
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Password Usuario   :"
-         Height          =   255
-         Index           =   1
-         Left            =   360
-         TabIndex        =   13
-         Top             =   1320
-         Width           =   1575
-      End
-      Begin VB.Label Label1 
-         Caption         =   "Código Usuario       :"
-         Height          =   255
-         Index           =   0
-         Left            =   360
-         TabIndex        =   12
-         Top             =   360
-         Width           =   1455
-      End
-      Begin VB.Label Label2 
-         Caption         =   "Nombre Usuario  :"
-         Height          =   255
-         Left            =   360
-         TabIndex        =   9
-         Top             =   840
-         Width           =   1335
       End
    End
 End
@@ -464,9 +464,9 @@ Select Case Index
             For Each OTEXT1 In Me.Text1
                 OTEXT1.Text = ""
             Next
-            Text1(0).Text = AdoReg2.Fields(0)
-            Text1(2).Text = DECODIFICA(AdoReg2.Fields(1), NUMMAGICO)
-            Text1(3).Text = DECODIFICA(AdoReg2.Fields(1), NUMMAGICO)
+            Text1(0).Text = AdoReg2.Fields("usuariocodigo")
+            Text1(2).Text = DECODIFICA(AdoReg2.Fields("usuariopassword"), NUMMAGICO)
+            Text1(3).Text = DECODIFICA(AdoReg2.Fields("usuariopassword"), NUMMAGICO)
             If Not IsNull(AdoReg2.Fields("usuarioNombre")) Then Text1(1).Text = AdoReg2.Fields("usuarioNombre")
             
             Frame1.Caption = "Modificar Usuario"
@@ -477,7 +477,7 @@ Select Case Index
             Botones_Set False
             Text1(0).Enabled = False
             Text1(1).SetFocus
-            Call Edit_Men(AdoReg2.Fields(0))
+            Call Edit_Men(AdoReg2.Fields("usuariopassword"))
             
             Screen.MousePointer = 1
          Else
@@ -824,6 +824,7 @@ Else
 End If
 Exit Sub
 err1:
+MsgBox err.Description
 Resume Next
 End Sub
 

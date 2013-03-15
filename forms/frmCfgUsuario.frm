@@ -307,7 +307,7 @@ Set AdoUsu = New ADODB.Recordset
 
 'Adoreg1.CursorType = adOpenDynamic           NO USAR CAMBIAR BOOKMARK
 
-Adoreg1.Open "Select USU_CODIGO,USU_NOMBRE from si_USUARIO ", VGConfig, adOpenStatic
+Adoreg1.Open "Select usuariocodigo,USU_NOMBRE from si_USUARIO ", VGConfig, adOpenStatic
 AdoReg2.Open "Select * from si_USUARIO ", VGConfig, adOpenDynamic, adLockOptimistic
 AdoUsu.Open "Select * From si_menuusuarios where tipodesistema=" & VGtipo & "", VGConfig, adOpenDynamic, adLockOptimistic
  
@@ -387,7 +387,7 @@ Select Case Index
                 With Adoreg1
                     If .RecordCount <> 0 Then
                         .MoveFirst
-                        .Find "USU_CODIGO= '" & UCase$(Text1(0).Text) & "'"
+                        .Find "usuariocodigo= '" & UCase$(Text1(0).Text) & "'"
                         If Not .EOF Then
                             flag = True
                             Text1(0).Text = ""
@@ -406,8 +406,8 @@ Select Case Index
                     ElseIf Text1(2).Text = Text1(3).Text Then
                         'pasa
                         AdoReg2.AddNew
-                         AdoReg2.Fields("Usu_Codigo") = UCase$(RTrim$(Text1(0).Text))
-                        AdoReg2.Fields("USU_PASSWORD") = CODIFICA(RTrim$(Text1(2).Text), NUMMAGICO) 'password
+                         AdoReg2.Fields("usuariocodigo") = UCase$(RTrim$(Text1(0).Text))
+                        AdoReg2.Fields("usuarioPASSWORD") = CODIFICA(RTrim$(Text1(2).Text), NUMMAGICO) 'password
                         AdoReg2.UpdateBatch
                         If RTrim$(Text1(1).Text) <> "" Then AdoReg2.Fields("Usu_Nombre") = UCase$(RTrim$(Text1(1).Text))
                         AdoReg2.Update
@@ -428,8 +428,8 @@ Select Case Index
          
         If ntipo = 2 Then
              
-            AdoReg2.Fields("Usu_Codigo") = UCase$(RTrim$(Text1(0).Text))
-            AdoReg2.Fields("USU_PASSWORD") = CODIFICA(RTrim$(Text1(2).Text), NUMMAGICO)
+            AdoReg2.Fields("usuariocodigo") = UCase$(RTrim$(Text1(0).Text))
+            AdoReg2.Fields("usuarioPASSWORD") = CODIFICA(RTrim$(Text1(2).Text), NUMMAGICO)
             If RTrim$(Text1(1).Text) <> "" Then AdoReg2.Fields("Usu_Nombre") = UCase$(RTrim$(Text1(1).Text))
             AdoReg2.UpdateBatch
             Adoreg1.Requery
@@ -484,7 +484,7 @@ Select Case Index
           op = MsgBox("Esta Seguro que desea Eliminar el registro actual ", vbQuestion + vbYesNo, "Eliminación de Registro")
           If op = vbYes Then
                 AdoReg2.Bookmark = Adoreg1.Bookmark
-                VGConfig.Execute "Delete From si_menuusuarios Where tipodesistema=" & VGtipo & " and  USU_CODIGO = '" & AdoReg2("USU_CODIGO") & "'"
+                VGConfig.Execute "Delete From si_menuusuarios Where tipodesistema=" & VGtipo & " and  usuariocodigo = '" & AdoReg2("usuariocodigo") & "'"
                 AdoReg2.Delete
                 AdoReg2.UpdateBatch
                 AdoReg2.Requery
@@ -524,7 +524,7 @@ If KeyAscii = 13 Then
         With Adoreg1
             If .RecordCount <> 0 Then
                 .MoveFirst
-                .Find "USU_CODIGO= '" & UCase$(Text1(0).Text) & "'"
+                .Find "usuariocodigo= '" & UCase$(Text1(0).Text) & "'"
                 If Not .EOF Then
                     Text1(0).Text = ""
                     MsgBox "El Usuario ya existe:  Ingrese de nuevo", vbInformation, "Ingreso de Datos"
@@ -769,13 +769,13 @@ On Error GoTo err1
 nIi = 2
 ADOMen.MoveFirst
 Set AdoUsu = New ADODB.Recordset
-SQL = "delete si_menuusuarios Where tipodesistema=" & VGtipo & " and Usu_Codigo = '" & cCod & "'"
+SQL = "delete si_menuusuarios Where tipodesistema=" & VGtipo & " and usuariocodigo = '" & cCod & "'"
 Set AdoUsu = VGConfig.Execute(SQL)
 Do While Not ADOMen.EOF
     If TreeView1.Nodes(1).Checked Then  'Raiz
         If TreeView1.Nodes.Item(nIi).Key = ADOMen("Men_Codigo") & " ID" And ADOMen("Men_Visible") Then
             nOp = 2
-            SQL = "Select * From si_menuusuarios Where tipodesistema=" & VGtipo & " and Usu_Codigo = '" & cCod & "' and Men_Codigo = '" & ADOMen("Men_Codigo") & "'"
+            SQL = "Select * From si_menuusuarios Where tipodesistema=" & VGtipo & " and usuariocodigo = '" & cCod & "' and Men_Codigo = '" & ADOMen("Men_Codigo") & "'"
             AdoUsu.Open SQL, VGConfig, adOpenStatic
             If AdoUsu.RecordCount > 0 Then
                     nOp = 1
@@ -783,7 +783,7 @@ Do While Not ADOMen.EOF
             AdoUsu.Close
             
             If nOp = 2 Then
-                    SQL = "Insert Into si_menuusuarios (Usu_Codigo,tipodesistema,Men_Codigo,Men_Hab) Values ('" & cCod & "'," & VGtipo & ",'" & ADOMen("Men_Codigo") & "',"
+                    SQL = "Insert Into si_menuusuarios (usuariocodigo,tipodesistema,Men_Codigo,Men_Hab) Values ('" & cCod & "'," & VGtipo & ",'" & ADOMen("Men_Codigo") & "',"
                     If TreeView1.Nodes.Item(nIi).Checked = True Then
                         SQL = SQL & "1" & ")"
                     Else
@@ -796,7 +796,7 @@ Do While Not ADOMen.EOF
                     Else
                         SQL = SQL & "0"
                     End If
-                    SQL = SQL & " Where tipodesistema=" & VGtipo & " and Usu_Codigo = '" & cCod & "' and Men_Codigo = '" & ADOMen("Men_Codigo") & "'"
+                    SQL = SQL & " Where tipodesistema=" & VGtipo & " and usuariocodigo = '" & cCod & "' and Men_Codigo = '" & ADOMen("Men_Codigo") & "'"
             End If
             VGConfig.Execute SQL
         End If
@@ -829,7 +829,7 @@ For nJ = 1 To TreeView1.Nodes.Count
     TreeView1.Nodes(nJ).Expanded = False
 Next nJ
 
-ADOUsMe.Open "SELECT * FROM si_menuusuarios  WHERE tipodesistema=" & VGtipo & " and USU_CODIGO = '" & cCodU & "' ", VGConfig, adOpenStatic
+ADOUsMe.Open "SELECT * FROM si_menuusuarios  WHERE tipodesistema=" & VGtipo & " and usuariocodigo = '" & cCodU & "' ", VGConfig, adOpenStatic
 If ADOUsMe.RecordCount > 0 Then ADOUsMe.MoveFirst
 If Not ADOUsMe.EOF Then
     TreeView1.Nodes(1).Checked = True 'Raiz

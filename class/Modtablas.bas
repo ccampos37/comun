@@ -122,17 +122,17 @@ Public Sub adicionarcamposCT()
     If Not ExisteElem(1, VGCNx, "ct_centrocosto", "estructuranumerolinea") Then
         VGCNx.Execute "ALTER TABLE ct_centrocosto ADD estructuranumerolinea varchar(10) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGparamsistem.Anoproceso & "", "saldoacumdebe00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGparamsistem.Anoproceso & " ADD saldoacumdebe00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumdebe00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumdebe00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGparamsistem.Anoproceso & "", "saldoacumhaber00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGparamsistem.Anoproceso & " ADD saldoacumhaber00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumhaber00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumhaber00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGparamsistem.Anoproceso & "", "saldoacumussdebe00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGparamsistem.Anoproceso & " ADD saldoacumussdebe00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumussdebe00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumussdebe00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGparamsistem.Anoproceso & "", "saldoacumussHaber00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGparamsistem.Anoproceso & " ADD saldoacumussHaber00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumussHaber00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumussHaber00 float default (0) "
    End If
     If Not ExisteElem(1, VGCNx, "ct_cuenta", "cuentaadicionacargo") Then
         VGCNx.Execute "ALTER TABLE ct_cuenta ADD cuentaadicionacargo char(1) default ('0') "
@@ -486,11 +486,11 @@ On Error GoTo X
         .Reset
         .WindowTitle = titulo
         Call PropCrystal(MDIPrincipal.CryRptProc)
-        .ReportFileName = VGparamsistem.RutaReport
-        If Right$(VGparamsistem.RutaReport, 1) <> "\" Then
-           .ReportFileName = VGparamsistem.RutaReport & "\"
+        .ReportFileName = VGParamSistem.RutaReport
+        If Right$(VGParamSistem.RutaReport, 1) <> "\" Then
+           .ReportFileName = VGParamSistem.RutaReport & "\"
         End If
-        .ReportFileName = .ReportFileName & VGparamsistem.carpetareportes
+        .ReportFileName = .ReportFileName & VGParamSistem.carpetareportes
         
         If Right$(.ReportFileName, 1) <> "\" Then
         .ReportFileName = .ReportFileName & "\"
@@ -498,16 +498,16 @@ On Error GoTo X
         '.ReportFileName &
         .ReportFileName = .ReportFileName & cNombreReporte
         If VGsql = 1 Then
-           .Connect = "Provider=SQLOLEDB;Password=" & VGparamsistem.pwdGEN & ";Persist Security Info=True;User ID=" & VGparamsistem.usuarioGEN & ";Initial Catalog=" & VGparamsistem.bdempresaGEN & ";SERVER=" & VGparamsistem.servidorGEN
+           .Connect = "Provider=SQLOLEDB;Password=" & VGParamSistem.PwdGEN & ";Persist Security Info=True;User ID=" & VGParamSistem.UsuarioGEN & ";Initial Catalog=" & VGParamSistem.BDEmpresaGEN & ";SERVER=" & VGParamSistem.ServidorGEN
         Else
            .Connect = VGCadenaReport2
         End If
            
-        .Formulas(0) = "@Empresa='" & VGparametros.NomEmpresa & "'"
-        .Formulas(1) = "@Ruc='" & VGparametros.RucEmpresa & "'"     'aki va el ruc
+        .formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
+        .formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"     'aki va el ruc
         If UBound(PFormulas) > 0 Then
             For i = 0 To UBound(PFormulas) - 1
-                .Formulas(2 + i) = PFormulas(i)
+                .formulas(2 + i) = PFormulas(i)
             Next
         End If
         .DiscardSavedData = True
@@ -551,19 +551,19 @@ On Error GoTo X
         .WindowState = crptMaximized
         .WindowTitle = titulo
         Call PropCrystal(MDIPrincipal.CryRptProc)
-        .ReportFileName = VGparamsistem.RutaReport & "\" & cNombreReporte
+        .ReportFileName = VGParamSistem.RutaReport & "\" & cNombreReporte
         If VGsql = 1 Then
-           .Connect = "Provider=SQLOLEDB;Password=" & VGparamsistem.pwdGEN & ";Persist Security Info=True;User ID=" & VGparamsistem.usuarioGEN & ";Initial Catalog=" & VGparamsistem.bdempresaGEN & ";SERVER=" & VGparamsistem.servidorGEN
+           .Connect = "Provider=SQLOLEDB;Password=" & VGParamSistem.PwdGEN & ";Persist Security Info=True;User ID=" & VGParamSistem.UsuarioGEN & ";Initial Catalog=" & VGParamSistem.BDEmpresaGEN & ";SERVER=" & VGParamSistem.ServidorGEN
           Else
            .Connect = VGCadenaReport2
  
         End If
            
-        .Formulas(0) = "@Emp='" & VGparametros.NomEmpresa & "'"
-        .Formulas(1) = "@Ruc='" & VGparametros.RucEmpresa & "'"
+        .formulas(0) = "@Emp='" & VGParametros.NomEmpresa & "'"
+        .formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
         If UBound(PFormulas) > 0 Then
             For i = 0 To UBound(PFormulas) - 1
-                .Formulas(2 + i) = PFormulas(i)
+                .formulas(2 + i) = PFormulas(i)
             Next
         End If
         .DiscardSavedData = True
@@ -608,21 +608,21 @@ On Error GoTo X
         .Reset
         .WindowTitle = titulo
         Call PropCrystal(MDIPrincipal.CryRptProc)
-        If Right$(VGparamsistem.RutaReport, 1) <> "\" Then VGparamsistem.RutaReport = VGparamsistem.RutaReport & "\"
-        .ReportFileName = VGparamsistem.RutaReport + cNombreReporte
+        If Right$(VGParamSistem.RutaReport, 1) <> "\" Then VGParamSistem.RutaReport = VGParamSistem.RutaReport & "\"
+        .ReportFileName = VGParamSistem.RutaReport + cNombreReporte
         
         If VGsql = 1 Then
-           .Connect = "Provider=SQLOLEDB;Password=" & VGparamsistem.pwdGEN & ";Persist Security Info=True;User ID=" & VGparamsistem.usuarioGEN & ";Initial Catalog=" & VGparamsistem.bdempresaGEN & ";SERVER=" & VGparamsistem.servidorGEN
+           .Connect = "Provider=SQLOLEDB;Password=" & VGParamSistem.PwdGEN & ";Persist Security Info=True;User ID=" & VGParamSistem.UsuarioGEN & ";Initial Catalog=" & VGParamSistem.BDEmpresaGEN & ";SERVER=" & VGParamSistem.ServidorGEN
           Else
            .Connect = VGCadenaReport2
 
         End If
            
-        .Formulas(0) = "@Empresa='" & VGparametros.NomEmpresa & "'"
-        .Formulas(1) = "@Ruc='" & VGparametros.RucEmpresa & "'"
+        .formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
+        .formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
         If UBound(PFormulas) > 0 Then
             For i = 0 To UBound(PFormulas) - 1
-                .Formulas(2 + i) = PFormulas(i)
+                .formulas(2 + i) = PFormulas(i)
             Next
         End If
         .DiscardSavedData = True
@@ -635,7 +635,7 @@ On Error GoTo X
         '***Para el SubReporte
         .SubreportToChange = cNombreSubRpt
         If VGsql = 1 Then
-           .Connect = "Provider=SQLOLEDB;Password=" & VGparamsistem.pwdGEN & ";Persist Security Info=True;User ID=" & VGparamsistem.usuarioGEN & ";Initial Catalog=" & VGparamsistem.bdempresaGEN & ";SERVER=" & VGparamsistem.servidorGEN
+           .Connect = "Provider=SQLOLEDB;Password=" & VGParamSistem.PwdGEN & ";Persist Security Info=True;User ID=" & VGParamSistem.UsuarioGEN & ";Initial Catalog=" & VGParamSistem.BDEmpresaGEN & ";SERVER=" & VGParamSistem.ServidorGEN
           Else
            .Connect = VGCadenaReport2
 
@@ -703,7 +703,7 @@ Set VGGeneral = New ADODB.Connection
 VGGeneral.CursorLocation = adUseClient
 VGGeneral.CommandTimeout = 0
 VGGeneral.ConnectionTimeout = 200
-VGGeneral.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGparamsistem.usuarioGEN & ";Password=" & VGparamsistem.pwdGEN & ";Initial Catalog=" & VGparamsistem.bdempresaGEN & ";Data Source=" & VGparamsistem.servidorGEN
+VGGeneral.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.UsuarioGEN & ";Password=" & VGParamSistem.PwdGEN & ";Initial Catalog=" & VGParamSistem.BDEmpresaGEN & ";Data Source=" & VGParamSistem.ServidorGEN
 VGGeneral.Open
 
    
@@ -713,20 +713,20 @@ Set VGConfig = New ADODB.Connection
 VGConfig.CursorLocation = adUseClient
 VGConfig.CommandTimeout = 0
 VGConfig.ConnectionTimeout = 0
-VGConfig.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGparamsistem.Usuario & ";Password=" & VGparamsistem.pwd & ";Initial Catalog=bdwenco;Data Source=" & VGparamsistem.servidor
+VGConfig.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.Usuario & ";Password=" & VGParamSistem.Pwd & ";Initial Catalog=bdwenco;Data Source=" & VGParamSistem.Servidor
 VGConfig.Open
     
 'Conexion de inventarios
 
-If VGparamsistem.bdempresa = "" Or VGparamsistem.bdempresa = "?" Then
+If VGParamSistem.BDEmpresa = "" Or VGParamSistem.BDEmpresa = "?" Then
    Set RSQL = VGConfig.Execute("select empresabaseinventarios from empresa where empresaflaginventarios=1")
-   VGparamsistem.bdempresa = RSQL!empresabaseinventarios
+   VGParamSistem.BDEmpresa = RSQL!empresabaseinventarios
 End If
 Set VGCNx = New ADODB.Connection
 VGCNx.CursorLocation = adUseClient
 VGCNx.CommandTimeout = 0
 VGCNx.ConnectionTimeout = 0
-VGCNx.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGparamsistem.Usuario & ";Password=" & VGparamsistem.pwd & ";Initial Catalog=" & VGparamsistem.bdempresa & ";Data Source=" & VGparamsistem.servidor
+VGCNx.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.Usuario & ";Password=" & VGParamSistem.Pwd & ";Initial Catalog=" & VGParamSistem.BDEmpresa & ";Data Source=" & VGParamSistem.Servidor
 VGCNx.Open
     
 'Conexion de Contabilidad
@@ -735,7 +735,7 @@ Set VGcnxCT = New ADODB.Connection
 VGcnxCT.CursorLocation = adUseClient
 VGcnxCT.CommandTimeout = 0
 VGcnxCT.ConnectionTimeout = 0
-VGcnxCT.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGparamsistem.usuarioCT & ";Password=" & VGparamsistem.pwdCT & ";Initial Catalog=" & VGparamsistem.bdempresaCT & ";Data Source=" & VGparamsistem.servidorCT
+VGcnxCT.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.UsuarioCT & ";Password=" & VGParamSistem.PwdCT & ";Initial Catalog=" & VGParamSistem.BDEmpresaCT & ";Data Source=" & VGParamSistem.ServidorCT
 VGcnxCT.Open
     
 'Call adicionacamposct
@@ -1104,7 +1104,7 @@ Public Function MostrarForm(pVentana As Form, pPos As String)
       pVentana.Left = 300
       pVentana.Top = 300
    ElseIf pPos = "M" And pVentana.Visible = False Then
-      pVentana.Caption = pVentana.Caption & "  " & VGparametros.NomEmpresa
+      pVentana.Caption = pVentana.Caption & "  " & VGParametros.NomEmpresa
       pVentana.Width = Screen.Width
    ElseIf pPos = "C1" Then
      pVentana.Left = ((Screen.Width - pVentana.Width) / 2) - 350
@@ -1118,21 +1118,21 @@ Public Function MostrarForm(pVentana As Form, pPos As String)
    pVentana.Panel.Panels(1).Width = (pVentana.Width / 4)
    If pPos = "M" Then
       pVentana.Panel.Panels(1).Width = ((pVentana.Width - 2600) / 4)
-      pVentana.Panel.Panels(1).Text = "EMPRESA: " & VGparametros.NomEmpresa
-      pVentana.Panel.Panels(2).Text = "PTO. VENTA: " & VGparametros.puntovta
+      pVentana.Panel.Panels(1).text = "EMPRESA: " & VGParametros.NomEmpresa
+      pVentana.Panel.Panels(2).text = "PTO. VENTA: " & VGParametros.puntovta
       pVentana.Panel.Panels(2).Alignment = sbrLeft
       pVentana.Panel.Panels(2).Width = (pVentana.Width / 4)
    Else
-      pVentana.Panel.Panels(1).Text = "FORMATO : " & Escadena(pVentana.Caption)
-      pVentana.Panel.Panels(2).Text = "USUARIO: " & VGUsuario
+      pVentana.Panel.Panels(1).text = "FORMATO : " & Escadena(pVentana.Caption)
+      pVentana.Panel.Panels(2).text = "USUARIO: " & VGUsuario
       pVentana.Panel.Panels(2).Alignment = sbrLeft
       pVentana.Panel.Panels(2).Width = (pVentana.Width / 4)
    End If
    pVentana.Panel.Panels(1).Alignment = sbrLeft
-   pVentana.Panel.Panels(3).Text = "FECHA :" & Format(Date, "dd/mm/yyyy")
+   pVentana.Panel.Panels(3).text = "FECHA :" & Format(Date, "dd/mm/yyyy")
    pVentana.Panel.Panels(3).Alignment = sbrRight
    pVentana.Panel.Panels(3).Width = (pVentana.Width / 4)
-   pVentana.Panel.Panels(4).Text = "HORA :" & Format(Time, "hh:mm:ss")
+   pVentana.Panel.Panels(4).text = "HORA :" & Format(Time, "hh:mm:ss")
    pVentana.Panel.Panels(4).Alignment = sbrRight
    pVentana.Panel.Panels(4).Width = (pVentana.Width / 4)
 
@@ -1149,7 +1149,7 @@ Public Function MostrarFormVentas(pVentana As Form, pPos As String)
       pVentana.Left = 300
       pVentana.Top = 300
    ElseIf pPos = "M" And pVentana.Visible = False Then
-      pVentana.Caption = pVentana.Caption & "  " & VGparametros.NomEmpresa
+      pVentana.Caption = pVentana.Caption & "  " & VGParametros.NomEmpresa
       pVentana.Width = Screen.Width
    ElseIf pPos = "C1" Then
      pVentana.Left = ((Screen.Width - pVentana.Width) / 2) - 350
@@ -1212,12 +1212,12 @@ Public Function VerificaCombo(xcombo As ComboBox, ncadena As String) As Long
          xcombo.ListIndex = J
          k = InStr(xcombo, "-")
          If k > 1 Then
-           If Left(xcombo.Text, k - 1) = ncadena Then
+           If Left(xcombo.text, k - 1) = ncadena Then
              VerificaCombo = J
              Exit For
            End If
          Else
-           If xcombo.Text = ncadena Then
+           If xcombo.text = ncadena Then
              VerificaCombo = J
              Exit For
            End If
@@ -1302,23 +1302,23 @@ Public Function DatoTipoCambio(xCn As ADODB.Connection, xfecha As String) As Dou
 End Function
 
 
-Public Sub Imprimir(cNombreReporte As String)
+Public Sub imprimir(cNombreReporte As String)
 Dim VGdllApi As New dll_apisgen.dll_apis
 On Error GoTo Errores
 
 With MDIPrincipal.CryRptProc
    Call PropCrystal(MDIPrincipal.CryRptProc)
-   .ReportFileName = VGparamsistem.RutaReport
-   If Right$(VGparamsistem.RutaReport, 1) <> "\" Then
-     .ReportFileName = VGparamsistem.RutaReport & "\"
+   .ReportFileName = VGParamSistem.RutaReport
+   If Right$(VGParamSistem.RutaReport, 1) <> "\" Then
+     .ReportFileName = VGParamSistem.RutaReport & "\"
    End If
-  .ReportFileName = .ReportFileName & VGparamsistem.carpetareportes
+  .ReportFileName = .ReportFileName & VGParamSistem.carpetareportes
   If Right$(.ReportFileName, 1) <> "\" Then
         .ReportFileName = .ReportFileName & "\"
   End If
   .ReportFileName = .ReportFileName & cNombreReporte
-  .Connect = "Provider=SQLOLEDB;PWD=" & VGparamsistem.pwd & ";UID=" & VGparamsistem.Usuario & ";DSQ=" & VGparamsistem.bdempresa & ";DSN=" & VGparamsistem.servidor
-  .Formulas(0) = "Empresa='" & VGparametros.NomEmpresa & "'"
+  .Connect = "Provider=SQLOLEDB;PWD=" & VGParamSistem.Pwd & ";UID=" & VGParamSistem.Usuario & ";DSQ=" & VGParamSistem.BDEmpresa & ";DSN=" & VGParamSistem.Servidor
+  .formulas(0) = "Empresa='" & VGParametros.NomEmpresa & "'"
   .Action = 1
 End With
 Exit Sub
@@ -1351,10 +1351,10 @@ On Error GoTo Procesotransf
             .Parameters("@Mes") = Format(Month(Fecha), "00")
             .Parameters("@Ano") = Year(Fecha)
             .Parameters("@Compu") = VGcomputer
-            .Parameters("@Usuario") = VGparamsistem.Usuario
+            .Parameters("@Usuario") = VGParamSistem.Usuario
             .Parameters("@Ntransfer") = Nrecibo
-            .Parameters("@ajustehaber") = VGparametros.sistemactaajustehab
-            .Parameters("@ajustedebe") = VGparametros.sistemactaajustedeb
+            .Parameters("@ajustehaber") = VGParametros.sistemactaajustehab
+            .Parameters("@ajustedebe") = VGParametros.sistemactaajustedeb
             .Execute
         End With
         Screen.MousePointer = 1
@@ -1399,13 +1399,13 @@ If rsparimpo.RecordCount() > 0 Then
             
         .Parameters("@tipanal") = "002"
         .Parameters("@Compu") = VGcomputer
-        .Parameters("@Usuario") = VGparamsistem.Usuario
+        .Parameters("@Usuario") = VGParamSistem.Usuario
         .Parameters("@TipoMov") = Trim(UCase(m_tipovoucher))
         .Parameters("@Nrecibo") = Nrecibo
         .Parameters("@op") = op
         .Parameters("@comprobconta") = comprobconta
-        .Parameters("@ajustehaber") = VGparametros.sistemactaajustehab
-        .Parameters("@ajustedebe") = VGparametros.sistemactaajustedeb
+        .Parameters("@ajustehaber") = VGParametros.sistemactaajustehab
+        .Parameters("@ajustedebe") = VGParametros.sistemactaajustedeb
         .Execute
    End With
    If numerror = 0 Then
@@ -1423,4 +1423,18 @@ Proceso:
    Exit Sub
    Resume
 End Sub
+
+Public Function DatoMoneda(xValor As String) As String
+   Dim rmone As New ADODB.Recordset
+   
+   Set rmone = VGCNx.Execute("select * from gr_moneda where monedacodigo='" & xValor & "'")
+   If rmone.RecordCount > 0 Then
+       DatoMoneda = Escadena(rmone!monedasimbolo) & " ."
+   Else
+       DatoMoneda = " "
+   End If
+   rmone.Close
+   Set rmone = Nothing
+
+End Function
 
