@@ -33,7 +33,7 @@ Public Enum TIPOSISTEMA
    activos = 8
    costos = 9
    planillas = 10
-   PyMe = 11
+   PyM = 11
    
 End Enum
 Public VGsql As String * 1
