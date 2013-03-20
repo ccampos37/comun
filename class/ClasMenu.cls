@@ -55,7 +55,7 @@ Public Sub CrearTablaMenu()
         " CONSTRAINT Clave PRIMARY KEY (tipodesistema,Men_Codigo))"
         VGConfig.Execute SQL
       Else:
-        VGConfig.Execute "Delete From " & TablaMenu & " where tipodesistema=" & vgtipo
+        VGConfig.Execute "Delete From " & TablaMenu & " where tipodesistema=" & VGtipo
     End If
     'Redimensionando los Niveles
     ReDim ContNiv(MaxNivel + 1) 'MaxNivel : Funcion que determina el maximo nivel en el menu
@@ -77,7 +77,7 @@ Public Sub CrearTablaMenu()
                 For i = 0 To UBound(ContNiv) - 1
                     CodigoMenu = CodigoMenu & IIf(ContNiv(i) > 0, Format(ContNiv(i), "00"), "")
                 Next
-                RSAUX!tipodesistema = vgtipo
+                RSAUX!tipodesistema = VGtipo
                 RSAUX!Men_CodIGO = RTrim$(CodigoMenu)
                 RSAUX!Men_Descri = DevCad("&", Contr.Caption)
                 RSAUX!Men_CodEdit = RTrim$(Contr.Name)
@@ -135,7 +135,7 @@ Public Sub HabilitarMenuNom(Usuario As String)
     Dim SQL As String
     SQL = " SELECT a.usuariocodigo, b.Men_CodEdit, a.MEN_HAB From " & TabaMenuDet & " a "
     SQL = SQL & " left join " & TablaMenu & " b on a.tipodesistema=b.tipodesistema and a.MEN_CODIGO=b.Men_Codigo "
-    SQL = SQL & " where a.usuariocodigo='" & Usuario & "' and a.tipodesistema=" & vgtipo & ""
+    SQL = SQL & " where a.usuariocodigo='" & Usuario & "' and a.tipodesistema=" & VGtipo & ""
     Set RsMenUsu = VGConfig.Execute(SQL)
     Dim n As String
     If RsMenUsu.RecordCount = 0 Then Exit Sub
@@ -144,7 +144,7 @@ Public Sub HabilitarMenuNom(Usuario As String)
         For Each Contr In MDIPrincipal.Controls
             If TypeOf Contr Is Menu Then
                 n = Contr.Name
-                If UCase$(n) = UCase$(RsMenUsu!Men_CodEdit) Then
+                If UCase$(n) = UCase$(ESNULO(RsMenUsu!Men_CodEdit, 1)) Then
                      Contr.Enabled = IIf(RsMenUsu!MEN_HAB, True, False)
                      Exit For
                 End If

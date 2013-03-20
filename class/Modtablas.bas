@@ -152,6 +152,31 @@ Public Sub adicionarcamposCT()
         VGCNx.Execute "ALTER TABLE ct_importarventas ADD procedimientoasiento varchar(40) default ('') "
         VGCNx.Execute (" update ct_importarventas set procedimientoasiento='' ")
    End If    'JCGI
+   If Not ExisteElem(1, VGConfig, "si_usuario", "usuariocodigo") Then
+      VGCNx.Execute "ALTER TABLE si_usuario ADD usuariocodigo varchar(8) default('') "
+      If ExisteElem(1, VGConfig, "si_usuario", "usu_codigo") Then
+         VGCNx.Execute "UPDATE si_usuario SET usuariocodigo=usu_codigo"
+       End If
+   End If
+   If Not ExisteElem(1, VGConfig, "si_usuario", "usuariopassword") Then
+      VGCNx.Execute "ALTER TABLE si_usuario ADD usuariopassword varchar(8) default('') "
+      If ExisteElem(1, VGConfig, "si_usuario", "usu_password") Then
+         VGCNx.Execute "UPDATE si_usuario SET usuariopassword=usu_password"
+       End If
+   End If
+   If Not ExisteElem(1, VGConfig, "si_usuario", "usuarionombre") Then
+      VGCNx.Execute "ALTER TABLE si_usuario ADD usuarionombre varchar(30) default('') "
+      If ExisteElem(1, VGConfig, "si_usuario", "usu_nombre") Then
+         VGCNx.Execute "UPDATE si_usuario SET usuarionombre=usu_nombre"
+       End If
+   End If
+   If Not ExisteElem(1, VGConfig, "si_menuusuarios", "usuariocodigo") Then
+      VGCNx.Execute "ALTER TABLE si_menuusuarios ADD usuariocodigo varchar(8) default('') "
+      If ExisteElem(1, VGConfig, "si_menuusuarios", "usu_codigo") Then
+         VGCNx.Execute "UPDATE si_menuusuarios SET usuariocodigo=usu_codigo"
+       End If
+   End If
+
 
 End Sub
 Public Sub adicionarcamposcostos()
@@ -341,7 +366,15 @@ End If
    If Not ExisteElem(1, VGCNx, "al_sistema", "SaldoConsolidadoxPedidos") Then
      VGCNx.Execute "ALTER TABLE al_sistema ADD SaldoConsolidadoxPedidos integer default(0) "
    End If
-
+   If Not ExisteElem(1, VGCNx, "movalmcab", "usuariomodifica") Then
+     VGCNx.Execute "ALTER TABLE movalmcab ADD usuariomodifica varchar(8) default('') "
+   End If
+   If Not ExisteElem(1, VGCNx, "movalmcab", "fechamodifica") Then
+     VGCNx.Execute "ALTER TABLE movalmcab ADD fechamodifica datetime "
+   End If
+   If Not ExisteElem(1, VGCNx, "movalmcab", "hostname") Then
+     VGCNx.Execute "ALTER TABLE movalmcab ADD hostname varchar(50) default(host_name()) "
+   End If
    Exit Sub
 err2:
  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
@@ -1344,9 +1377,9 @@ On Error GoTo Procesotransf
             .Parameters("@BaseConta") = VGcnxCT.DefaultDatabase
             .Parameters("@BaseVenta") = VGCNx.DefaultDatabase
             .Parameters("@empresa") = empresa
-            .Parameters("@Asiento") = rsparimpo!asiento
+            .Parameters("@Asiento") = rsparimpo!Asiento
             .Parameters("@SubAsiento") = rsparimpo!SubAsiento
-            .Parameters("@Libro") = rsparimpo!libro
+            .Parameters("@Libro") = rsparimpo!Libro
             
             .Parameters("@Mes") = Format(Month(Fecha), "00")
             .Parameters("@Ano") = Year(Fecha)
@@ -1390,9 +1423,9 @@ If rsparimpo.RecordCount() > 0 Then
         .Parameters("@BaseConta") = VGcnxCT.DefaultDatabase
         .Parameters("@BaseVenta") = VGCNx.DefaultDatabase
         .Parameters("@empresa") = empresa
-        .Parameters("@Asiento") = rsparimpo!asiento
+        .Parameters("@Asiento") = rsparimpo!Asiento
         .Parameters("@SubAsiento") = rsparimpo!SubAsiento
-        .Parameters("@Libro") = rsparimpo!libro
+        .Parameters("@Libro") = rsparimpo!Libro
          
         .Parameters("@Mes") = Format(Month(Fecha), "00")
         .Parameters("@Ano") = Year(Fecha)
