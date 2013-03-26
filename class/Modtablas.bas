@@ -122,17 +122,17 @@ Public Sub adicionarcamposCT()
     If Not ExisteElem(1, VGCNx, "ct_centrocosto", "estructuranumerolinea") Then
         VGCNx.Execute "ALTER TABLE ct_centrocosto ADD estructuranumerolinea varchar(10) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumdebe00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumdebe00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumdebe00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumdebe00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumhaber00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumhaber00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumhaber00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumhaber00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumussdebe00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumussdebe00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumussdebe00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumussdebe00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumussHaber00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumussHaber00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumussHaber00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumussHaber00 float default (0) "
    End If
     If Not ExisteElem(1, VGCNx, "ct_cuenta", "cuentaadicionacargo") Then
         VGCNx.Execute "ALTER TABLE ct_cuenta ADD cuentaadicionacargo char(1) default ('0') "
@@ -153,27 +153,27 @@ Public Sub adicionarcamposCT()
         VGCNx.Execute (" update ct_importarventas set procedimientoasiento='' ")
    End If    'JCGI
    If Not ExisteElem(1, VGConfig, "si_usuario", "usuariocodigo") Then
-      VGCNx.Execute "ALTER TABLE si_usuario ADD usuariocodigo varchar(8) default('') "
+      VGConfig.Execute "ALTER TABLE si_usuario ADD usuariocodigo varchar(8) default('') "
       If ExisteElem(1, VGConfig, "si_usuario", "usu_codigo") Then
-         VGCNx.Execute "UPDATE si_usuario SET usuariocodigo=usu_codigo"
+         VGConfig.Execute "UPDATE si_usuario SET usuariocodigo=usu_codigo"
        End If
    End If
    If Not ExisteElem(1, VGConfig, "si_usuario", "usuariopassword") Then
-      VGCNx.Execute "ALTER TABLE si_usuario ADD usuariopassword varchar(8) default('') "
+      VGConfig.Execute "ALTER TABLE si_usuario ADD usuariopassword varchar(8) default('') "
       If ExisteElem(1, VGConfig, "si_usuario", "usu_password") Then
-         VGCNx.Execute "UPDATE si_usuario SET usuariopassword=usu_password"
+         VGConfig.Execute "UPDATE si_usuario SET usuariopassword=usu_password"
        End If
    End If
    If Not ExisteElem(1, VGConfig, "si_usuario", "usuarionombre") Then
-      VGCNx.Execute "ALTER TABLE si_usuario ADD usuarionombre varchar(30) default('') "
+      VGConfig.Execute "ALTER TABLE si_usuario ADD usuarionombre varchar(30) default('') "
       If ExisteElem(1, VGConfig, "si_usuario", "usu_nombre") Then
-         VGCNx.Execute "UPDATE si_usuario SET usuarionombre=usu_nombre"
+         VGConfig.Execute "UPDATE si_usuario SET usuarionombre=usu_nombre"
        End If
    End If
    If Not ExisteElem(1, VGConfig, "si_menuusuarios", "usuariocodigo") Then
-      VGCNx.Execute "ALTER TABLE si_menuusuarios ADD usuariocodigo varchar(8) default('') "
+      VGConfig.Execute "ALTER TABLE si_menuusuarios ADD usuariocodigo varchar(8) default('') "
       If ExisteElem(1, VGConfig, "si_menuusuarios", "usu_codigo") Then
-         VGCNx.Execute "UPDATE si_menuusuarios SET usuariocodigo=usu_codigo"
+         VGConfig.Execute "UPDATE si_menuusuarios SET usuariocodigo=usu_codigo"
        End If
    End If
 
@@ -377,7 +377,7 @@ End If
    End If
    Exit Sub
 err2:
- MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
+ MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
 Resume Next
 End Sub
 Public Property Get ComputerName() As Variant
@@ -536,11 +536,11 @@ On Error GoTo X
            .Connect = VGCadenaReport2
         End If
            
-        .formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
-        .formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"     'aki va el ruc
+        .Formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
+        .Formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"     'aki va el ruc
         If UBound(PFormulas) > 0 Then
             For i = 0 To UBound(PFormulas) - 1
-                .formulas(2 + i) = PFormulas(i)
+                .Formulas(2 + i) = PFormulas(i)
             Next
         End If
         .DiscardSavedData = True
@@ -555,20 +555,20 @@ On Error GoTo X
     Screen.MousePointer = 1
     Exit Sub
 X:
-  If Err.Number = 9 Then Resume Next
+  If err.Number = 9 Then Resume Next
   Screen.MousePointer = 1
-  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
+  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
 End Sub
 Private Sub CrystOrden(ByRef cry As CrystalReport, cad As String)
 Dim pos As Integer, cadaux As String, i As Integer
-Dim Valor As String
+Dim valor As String
     i = 0
     Do While True
         pos = InStr(1, cad, ",", vbTextCompare)
         'I = 0
         If pos = 0 Then Exit Do
-        Valor = Left$(cad, pos - 1)
-        cry.SortFields(i) = Valor
+        valor = Left$(cad, pos - 1)
+        cry.SortFields(i) = valor
         i = i + 1
         cad = Right$(cad, (Len(cad) - pos))
     Loop
@@ -592,11 +592,11 @@ On Error GoTo X
  
         End If
            
-        .formulas(0) = "@Emp='" & VGParametros.NomEmpresa & "'"
-        .formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
+        .Formulas(0) = "@Emp='" & VGParametros.NomEmpresa & "'"
+        .Formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
         If UBound(PFormulas) > 0 Then
             For i = 0 To UBound(PFormulas) - 1
-                .formulas(2 + i) = PFormulas(i)
+                .Formulas(2 + i) = PFormulas(i)
             Next
         End If
         .DiscardSavedData = True
@@ -611,9 +611,9 @@ On Error GoTo X
     Screen.MousePointer = 1
     Exit Sub
 X:
-  If Err.Number = 9 Then Resume Next
+  If err.Number = 9 Then Resume Next
   Screen.MousePointer = 1
-  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
+  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
 End Sub
 Public Sub PropCrystal(ByRef CrystalRpt As CrystalReport)
     CrystalRpt.WindowShowCancelBtn = True
@@ -651,11 +651,11 @@ On Error GoTo X
 
         End If
            
-        .formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
-        .formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
+        .Formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
+        .Formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
         If UBound(PFormulas) > 0 Then
             For i = 0 To UBound(PFormulas) - 1
-                .formulas(2 + i) = PFormulas(i)
+                .Formulas(2 + i) = PFormulas(i)
             Next
         End If
         .DiscardSavedData = True
@@ -685,9 +685,9 @@ On Error GoTo X
     Screen.MousePointer = 1
     Exit Sub
 X:
-  If Err.Number = 9 Then Resume Next
+  If err.Number = 9 Then Resume Next
   Screen.MousePointer = 1
-  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
+  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
 End Sub
 Public Function XRecuperaTipoCambio(Fecha As Date, tipo As tipocambio, cnx As ADODB.Connection) As Double
 Dim RSAUX As ADODB.Recordset
@@ -707,7 +707,7 @@ Dim Campo As String
     SQL = "Select Valor=isnull(" & Campo & ",0)  from ct_tipocambio where convert(varchar(10),tipocambiofecha,103) ='" & Fecha & "'"
     Set RSAUX = VGCNx.Execute(SQL)
     If RSAUX.RecordCount > 0 Then
-        XRecuperaTipoCambio = RSAUX!Valor
+        XRecuperaTipoCambio = RSAUX!valor
     End If
 End Function
 Public Function ExisteSQL(ByVal cnx As ADODB.Connection, ByVal SentenciaSQL As String) As Boolean
@@ -725,7 +725,7 @@ On Error GoTo SaliError
 SaliError:
     Screen.MousePointer = 1
     ExisteSQL = False
-    MsgBox Err.Description
+    MsgBox err.Description
     Exit Function
     Resume
 End Function
@@ -776,7 +776,7 @@ Exit Sub
 
 error:
     
-MsgBox Err.Description, vbExclamation
+MsgBox err.Description, vbExclamation
 Exit Sub
 Resume
 End Sub
@@ -797,10 +797,10 @@ Select Case tipo
 End Select
 End Function
 
-Public Function ESNULO(EXPRESION As Variant, Valor As Variant) As Variant
+Public Function ESNULO(EXPRESION As Variant, valor As Variant) As Variant
 On Error GoTo errfun
    If IsNull(EXPRESION) Or Trim$(EXPRESION) = Empty Then
-      ESNULO = Valor
+      ESNULO = valor
      Else: ESNULO = EXPRESION
    End If
    Exit Function
@@ -1037,7 +1037,7 @@ End If
 NUMLET = cLET
 End Function
 
-Public Function CODIFICA(CADENA As String, Valor As Integer) As String
+Public Function CODIFICA(CADENA As String, valor As Integer) As String
     Dim ciclo As Integer, posic As Integer
     Dim utl_sal As Integer
     Dim carac As String, cadena_cod As String, cad As String
@@ -1061,26 +1061,26 @@ Public Function CODIFICA(CADENA As String, Valor As Integer) As String
      Case 0:
             carac = Chr(Asc(carac) * 2)
      Case 1:
-            carac = Chr(Asc(carac) - Valor)
+            carac = Chr(Asc(carac) - valor)
      Case 2:
             carac = Chr(Asc(carac) - (ciclo * 2))
             utl_sal = Asc(carac)
      Case 3:
             If utl_sal > 10 Then utl_sal = utl_sal - (Int(utl_sal / 10) * 10)
-            carac = Chr(Asc(carac) - Valor + utl_sal)
+            carac = Chr(Asc(carac) - valor + utl_sal)
      Case 4:
             carac = Chr(Asc(carac) - ciclo)
             utl_sal = Asc(carac)
      Case 5:
             If utl_sal > 10 Then utl_sal = utl_sal - (Int(utl_sal / 10) * 10)
-            carac = Chr(Asc(carac) - Valor + utl_sal)
+            carac = Chr(Asc(carac) - valor + utl_sal)
      End Select
      cad = cad + carac
     Next ciclo
     CODIFICA = cad
 End Function
 'función que desencripta una cadena
-Public Function DECODIFICA(CADENA As String, Valor As Integer) As String
+Public Function DECODIFICA(CADENA As String, valor As Integer) As String
     Dim ciclo As Integer, posic As Integer, val_n As Integer, val_an As Integer
     Dim carac As String, cad As String
     CADENA = Trim$(CADENA)
@@ -1093,18 +1093,18 @@ Public Function DECODIFICA(CADENA As String, Valor As Integer) As String
      Case 0:
             val_n = Asc(carac) / 2
      Case 1:
-            val_n = Asc(carac) + Valor
+            val_n = Asc(carac) + valor
      Case 2:
             val_n = Asc(carac) + (ciclo * 2)
             val_an = Asc(carac)
      Case 3:
             If val_an > 10 Then val_an = val_an - (Int(val_an / 10) * 10)
-            val_n = Asc(carac) + Valor - val_an
+            val_n = Asc(carac) + valor - val_an
      Case 4:
             val_n = Asc(carac) + ciclo
      Case 5:
             If val_an > 10 Then val_an = val_an - (Int(val_an / 10) * 10)
-            val_n = Asc(carac) + Valor - val_an
+            val_n = Asc(carac) + valor - val_an
      Case 6:
            val_n = Asc(carac)
      End Select
@@ -1151,21 +1151,20 @@ Public Function MostrarForm(pVentana As Form, pPos As String)
    pVentana.Panel.Panels(1).Width = (pVentana.Width / 4)
    If pPos = "M" Then
       pVentana.Panel.Panels(1).Width = ((pVentana.Width - 2600) / 4)
-      pVentana.Panel.Panels(1).text = "EMPRESA: " & VGParametros.NomEmpresa
-      pVentana.Panel.Panels(2).text = "PTO. VENTA: " & VGParametros.puntovta
+      pVentana.Panel.Panels(1).Text = "EMPRESA: " & VGParametros.NomEmpresa
       pVentana.Panel.Panels(2).Alignment = sbrLeft
       pVentana.Panel.Panels(2).Width = (pVentana.Width / 4)
    Else
-      pVentana.Panel.Panels(1).text = "FORMATO : " & Escadena(pVentana.Caption)
-      pVentana.Panel.Panels(2).text = "USUARIO: " & VGUsuario
+      pVentana.Panel.Panels(1).Text = "FORMATO : " & Escadena(pVentana.Caption)
+      pVentana.Panel.Panels(2).Text = "USUARIO: " & VGUsuario
       pVentana.Panel.Panels(2).Alignment = sbrLeft
       pVentana.Panel.Panels(2).Width = (pVentana.Width / 4)
    End If
    pVentana.Panel.Panels(1).Alignment = sbrLeft
-   pVentana.Panel.Panels(3).text = "FECHA :" & Format(Date, "dd/mm/yyyy")
+   pVentana.Panel.Panels(3).Text = "FECHA :" & Format(Date, "dd/mm/yyyy")
    pVentana.Panel.Panels(3).Alignment = sbrRight
    pVentana.Panel.Panels(3).Width = (pVentana.Width / 4)
-   pVentana.Panel.Panels(4).text = "HORA :" & Format(Time, "hh:mm:ss")
+   pVentana.Panel.Panels(4).Text = "HORA :" & Format(Time, "hh:mm:ss")
    pVentana.Panel.Panels(4).Alignment = sbrRight
    pVentana.Panel.Panels(4).Width = (pVentana.Width / 4)
 
@@ -1245,12 +1244,12 @@ Public Function VerificaCombo(xcombo As ComboBox, ncadena As String) As Long
          xcombo.ListIndex = J
          k = InStr(xcombo, "-")
          If k > 1 Then
-           If Left(xcombo.text, k - 1) = ncadena Then
+           If Left(xcombo.Text, k - 1) = ncadena Then
              VerificaCombo = J
              Exit For
            End If
          Else
-           If xcombo.text = ncadena Then
+           If xcombo.Text = ncadena Then
              VerificaCombo = J
              Exit For
            End If
@@ -1260,9 +1259,9 @@ Public Function VerificaCombo(xcombo As ComboBox, ncadena As String) As Long
     End If
     
 nerror:
-  If Err Then
-    MsgBox Err.Number & "-" & Err.Description
-    Err = 0
+  If err Then
+    MsgBox err.Number & "-" & err.Description
+    err = 0
     Resume Next
   End If
 End Function
@@ -1351,14 +1350,14 @@ With MDIPrincipal.CryRptProc
   End If
   .ReportFileName = .ReportFileName & cNombreReporte
   .Connect = "Provider=SQLOLEDB;PWD=" & VGParamSistem.Pwd & ";UID=" & VGParamSistem.Usuario & ";DSQ=" & VGParamSistem.BDEmpresa & ";DSN=" & VGParamSistem.Servidor
-  .formulas(0) = "Empresa='" & VGParametros.NomEmpresa & "'"
+  .Formulas(0) = "Empresa='" & VGParametros.NomEmpresa & "'"
   .Action = 1
 End With
 Exit Sub
     
 Errores:
-  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
-  Err = 0
+  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
+  err = 0
   Exit Sub
   
 End Sub
@@ -1395,7 +1394,7 @@ On Error GoTo Procesotransf
         Exit Sub
 Procesotransf:
         Screen.MousePointer = 1
-        MsgBox Err.Description
+        MsgBox err.Description
         Exit Sub
         Resume
 End Sub
@@ -1451,7 +1450,7 @@ Exit Sub
 Proceso:
    numerror = 1
    Screen.MousePointer = 1
-    MsgBox Err.Description
+    MsgBox err.Description
     VGCNx.RollbackTrans
    Exit Sub
    Resume
