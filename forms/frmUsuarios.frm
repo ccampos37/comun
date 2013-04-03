@@ -415,9 +415,10 @@ Select Case Index
                         AdoReg2.AddNew
                          AdoReg2.Fields("usuariocodigo") = UCase$(RTrim$(Text1(0).Text))
                         AdoReg2.Fields("UsuarioPassword") = CODIFICA(RTrim$(Text1(2).Text), NUMMAGICO) 'password
+                        AdoReg2.Fields("usuarioNombre") = UCase$(RTrim$(Text1(1).Text))
                         AdoReg2.UpdateBatch
                         If RTrim$(Text1(1).Text) <> "" Then AdoReg2.Fields("usuarioNombre") = UCase$(RTrim$(Text1(1).Text))
-                        AdoReg2.Update
+   '                     AdoReg2.Update
                         Adoreg1.Requery
                         Call Grab_Men(UCase$(RTrim$(Text1(0).Text)))
                     
@@ -477,7 +478,7 @@ Select Case Index
             Botones_Set False
             Text1(0).Enabled = False
             Text1(1).SetFocus
-            Call Edit_Men(AdoReg2.Fields("usuariopassword"))
+            Call Edit_Men(AdoReg2.Fields("usuariocodigo"))
             
             Screen.MousePointer = 1
          Else
@@ -601,8 +602,9 @@ bolVisibleS = True
 On Error GoTo err1
 
 Set ADOMen = New ADODB.Recordset
-ADOMen.Open "SELECT * FROM si_menu where tipodesistema=" & VGtipo & " ORDER BY MEN_CODIGO", VGConfig, adOpenStatic
-
+SQL = "SELECT * FROM si_menu where tipodesistema=" & VGtipo & " ORDER BY MEN_CODIGO"
+Set ADOMen = VGConfig.Execute(SQL)
+ADOMen.MoveFirst
 Do While Not ADOMen.EOF
     If Len(ADOMen("Men_Codigo")) = 2 And ADOMen("Men_Visible") Then
         ' Agrega un nodo al TreeView y establece sus propiedades.
@@ -615,12 +617,10 @@ Do While Not ADOMen.EOF
         intIndex01 = mNode.Index
         bolVisibleP = True
         ADOMen.MoveNext
-        If ADOMen.EOF Then Exit Do
          
     ElseIf Len(ADOMen("Men_Codigo")) = 2 And ADOMen("Men_Visible") = False Then
         bolVisibleP = False
         ADOMen.MoveNext
-        If ADOMen.EOF Then Exit Do
     End If
         
     If Len(ADOMen("Men_Codigo")) = 4 And ADOMen("Men_Visible") And bolVisibleP Then
@@ -634,7 +634,6 @@ Do While Not ADOMen.EOF
         bolVisibleS = True
         
         ADOMen.MoveNext
-        If ADOMen.EOF Then Exit Do
         
     Else
         If Len(ADOMen("Men_Codigo")) = 4 And ADOMen("Men_Visible") = False Then
@@ -648,7 +647,6 @@ Do While Not ADOMen.EOF
                 End If
         ElseIf Len(ADOMen("Men_Codigo")) = 4 And ADOMen("Men_Visible") And bolVisibleP = False Then
                 ADOMen.MoveNext
-                If ADOMen.EOF Then Exit Do
         End If
     End If
         
@@ -662,7 +660,6 @@ Do While Not ADOMen.EOF
             bolVisibleS = True
         End If
         ADOMen.MoveNext
-        If ADOMen.EOF Then Exit Do
         
     Else
         If Len(ADOMen("Men_Codigo")) = 6 And ADOMen("Men_Visible") = False Then
@@ -676,7 +673,6 @@ Do While Not ADOMen.EOF
             End If
         ElseIf Len(ADOMen("Men_Codigo")) = 6 And ADOMen("Men_Visible") And bolVisibleP = False Then
                 ADOMen.MoveNext
-                If ADOMen.EOF Then Exit Do
         End If
     End If
     
@@ -690,7 +686,6 @@ Do While Not ADOMen.EOF
             bolVisibleS = True
         End If
         ADOMen.MoveNext
-        If ADOMen.EOF Then Exit Do
         
     Else
         If Len(ADOMen("Men_Codigo")) = 8 And ADOMen("Men_Visible") = False Then
@@ -704,12 +699,12 @@ Do While Not ADOMen.EOF
             End If
         ElseIf Len(ADOMen("Men_Codigo")) = 8 And ADOMen("Men_Visible") And bolVisibleP = False Then
                 ADOMen.MoveNext
-                If ADOMen.EOF Then Exit Do
         End If
     End If
 Loop
 Exit Sub
 err1:
+'MsgBox err.Description
 Resume Next
 End Sub
 
@@ -807,15 +802,23 @@ Do While Not ADOMen.EOF
                     SQL = SQL & " Where tipodesistema=" & VGtipo & " and usuariocodigo = '" & cCod & "' and Men_Codigo = '" & ADOMen("Men_Codigo") & "'"
             End If
             VGConfig.Execute SQL
+            nIi = nIi + 1
+            ADOMen.MoveNext
+      
+        Else
+            If TreeView1.Nodes.Item(nIi).Key = "" Then
+               nIi = nIi + 1
+              Else
+                 ADOMen.MoveNext
+            End If
         End If
-        nIi = nIi + 1
+
     Else
         nIi = 0
         Exit Do
     End If
 
-    ADOMen.MoveNext
-    If ADOMen.EOF Then Exit Do
+   
 Loop
 If nIi >= 2 Then
     MsgBox "Se ha grabado completamente las opciones escogidas", vbInformation, "Mensaje"
@@ -825,7 +828,8 @@ End If
 Exit Sub
 err1:
 MsgBox err.Description
-Resume Next
+Exit Sub
+Resume
 End Sub
 
 Private Sub Edit_Men(cCodU As String)
