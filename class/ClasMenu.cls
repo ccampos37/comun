@@ -43,9 +43,9 @@ End Sub
 Public Sub CrearTablaMenu()
     Dim SQL As String
     Dim Contr As Control
-    Dim RSAUX As New ADODB.Recordset
+    Dim rsaux As New ADODB.Recordset
     Dim ContNiv() As Integer
-    Dim Niv As Integer, i As Integer, J As Integer
+    Dim Niv As Integer, I As Integer, J As Integer
     Dim CodigoMenu As String
     On Error GoTo errortab
     '*------------------------------------------------------------------*
@@ -60,31 +60,31 @@ Public Sub CrearTablaMenu()
     'Redimensionando los Niveles
     ReDim ContNiv(MaxNivel + 1) 'MaxNivel : Funcion que determina el maximo nivel en el menu
     '*Armando El Menu
-    Set RSAUX = Nothing
-    RSAUX.Open TablaMenu, VGConfig, adOpenDynamic, adLockOptimistic
+    Set rsaux = Nothing
+    rsaux.Open TablaMenu, VGConfig, adOpenDynamic, adLockOptimistic
     For Each Contr In MDIPrincipal.Controls
         If TypeOf Contr Is Menu Then
             If Contr.Visible And RTrim$(Contr.Caption) <> "-" And UCase$(RTrim$(Contr.Caption)) <> "Salir" Then
                 Niv = NumChar(Contr.Name, "_")
-                For i = Niv To Niv
-                    ContNiv(i) = ContNiv(i) + 1
+                For I = Niv To Niv
+                    ContNiv(I) = ContNiv(I) + 1
                     For J = Niv + 1 To UBound(ContNiv) - 1
                         ContNiv(J) = 0
                     Next
                 Next
-                RSAUX.AddNew
+                rsaux.AddNew
                 CodigoMenu = ""
-                For i = 0 To UBound(ContNiv) - 1
-                    CodigoMenu = CodigoMenu & IIf(ContNiv(i) > 0, Format(ContNiv(i), "00"), "")
+                For I = 0 To UBound(ContNiv) - 1
+                    CodigoMenu = CodigoMenu & IIf(ContNiv(I) > 0, Format(ContNiv(I), "00"), "")
                 Next
-                RSAUX!tipodesistema = VGtipo
-                RSAUX!Men_CodIGO = RTrim$(CodigoMenu)
-                RSAUX!Men_Descri = DevCad("&", Contr.Caption)
-                RSAUX!Men_CodEdit = RTrim$(Contr.Name)
+                rsaux!tipodesistema = VGtipo
+                rsaux!Men_CodIGO = RTrim$(CodigoMenu)
+                rsaux!Men_Descri = DevCad("&", Contr.Caption)
+                rsaux!Men_CodEdit = RTrim$(Contr.Name)
                 
-                RSAUX!Men_Visible = -1
+                rsaux!Men_Visible = -1
                 
-                RSAUX.Update
+                rsaux.Update
             End If
         End If
     Next
@@ -106,25 +106,25 @@ Private Function MaxNivel() As Integer
         End If
     Next
 End Function
-Public Function NumChar(CADENA As String, Caracter As String) As Integer
+Public Function NumChar(cadena As String, Caracter As String) As Integer
 'Funcion Creada por Fernando Cossio
-    Dim i As Integer, Cont As Integer
+    Dim I As Integer, Cont As Integer
     Cont = 0
-    For i = 1 To Len(CADENA)
-        If UCase$(Caracter) = Mid$(CADENA, i, 1) Then
+    For I = 1 To Len(cadena)
+        If UCase$(Caracter) = Mid$(cadena, I, 1) Then
             Cont = Cont + 1
         End If
     Next
     NumChar = Cont
 End Function
-Public Function DevCad(CaraterNo As String, CADENA As String)
+Public Function DevCad(CaraterNo As String, cadena As String)
     'Devuelve toda la cadena sin el caracter espcificado en el parametro
     'Funcion creada por fernando cossio
-    Dim i As Integer, acum, Cont As String
+    Dim I As Integer, acum, Cont As String
   
-    For i = 1 To Len(CADENA)
-        If UCase$(CaraterNo) <> Mid$(CADENA, i, 1) Then
-            acum = acum + Mid$(CADENA, i, 1)
+    For I = 1 To Len(cadena)
+        If UCase$(CaraterNo) <> Mid$(cadena, I, 1) Then
+            acum = acum + Mid$(cadena, I, 1)
         End If
     Next
     DevCad = acum

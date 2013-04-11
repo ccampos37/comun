@@ -1,4 +1,4 @@
-FrmIngreso = 302, 40, 809, 470, Z, 47, 13, 742, 536, C
+FrmIngreso = 302, 40, 809, 470, , 47, 13, 742, 536, C
 Modulo = 22, 27, 491, 497, 
 FrmUsusuariosxsistema = 52, 52, 646, 336, , 26, 26, 620, 310, C
 FrmUsuariosxBasedatos = 26, 26, 617, 310, , 130, 130, 724, 414, C

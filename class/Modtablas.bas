@@ -2,11 +2,11 @@ Attribute VB_Name = "ModificarCampos"
 Option Explicit
 
 Public VGCNx As New ADODB.Connection             'Conexion de la BD empresa
-Public VGcnxCT As New ADODB.Connection        'Conexion de Contabilidad
+Public VGCnxCT As New ADODB.Connection        'Conexion de Contabilidad
 Public VGGeneral As New ADODB.Connection      'Conexion de la BD Generales
 Public VGConfig As New ADODB.Connection      'Conexion de la BD de configuracion
-Public VGCadenaReport2 As String
 
+Public UsuarioReporte As String
 Public VGnumniveles As Integer               'Número de Niveles del Plan de Cuentas
 Public VGnumnivgas As Integer               'Número de Niveles del Plan de gastos
 Public VGnumnivcos As Integer               'Número de Niveles de centro de costos
@@ -18,9 +18,9 @@ Public VGtipolicencia As String
 Public VGfechalicencia As Date
 Public VGCodEmpresa As String
 Public SQL As String
-Public RSQL As New ADODB.Recordset
+Public rsql As New ADODB.Recordset
 
-
+Public VGCadenaReport2 As String
 Public Declare Function GetComputerName Lib "kernel32" Alias "GetComputerNameA" (ByVal lpBuffer As String, nSize As Long) As Long
 Public Enum TIPOSISTEMA
    inventarios = 1
@@ -122,17 +122,17 @@ Public Sub adicionarcamposCT()
     If Not ExisteElem(1, VGCNx, "ct_centrocosto", "estructuranumerolinea") Then
         VGCNx.Execute "ALTER TABLE ct_centrocosto ADD estructuranumerolinea varchar(10) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumdebe00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumdebe00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumdebe00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumdebe00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumhaber00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumhaber00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumhaber00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumhaber00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumussdebe00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumussdebe00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumussdebe00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumussdebe00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumussHaber00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumussHaber00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumussHaber00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumussHaber00 float default (0) "
    End If
     If Not ExisteElem(1, VGCNx, "ct_cuenta", "cuentaadicionacargo") Then
         VGCNx.Execute "ALTER TABLE ct_cuenta ADD cuentaadicionacargo char(1) default ('0') "
@@ -377,7 +377,7 @@ End If
    End If
    Exit Sub
 err2:
- MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
+ 'MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
 Resume Next
 End Sub
 Public Property Get ComputerName(Optional tipo As Integer) As Variant
@@ -412,17 +412,17 @@ Public Sub Enfoque(OBJ As Object)
   OBJ.SelLength = Len(OBJ)
 End Sub
 
-Public Function Existe(tipo As Integer, Cod As String, Tabla As String, Campo As String, Fecha As Boolean, Optional Cod2 As String, Optional cCampo2 As String, Optional Cod3 As String, Optional cCampo3 As String, Optional Cod4 As Boolean, Optional cCampo4 As String, Optional Cod5 As String, Optional cCampo5 As String) As Boolean
+Public Function Existe(tipo As Integer, Cod As String, Tabla As String, campo As String, Fecha As Boolean, Optional Cod2 As String, Optional cCampo2 As String, Optional Cod3 As String, Optional cCampo3 As String, Optional Cod4 As Boolean, Optional cCampo4 As String, Optional Cod5 As String, Optional cCampo5 As String) As Boolean
 Dim cSel1 As ADODB.Recordset, cSL As String
 Set cSel1 = New ADODB.Recordset
 
  If Fecha Then
-        cSL = "Select * from " & Tabla & "  Where " & Campo & " =  '" & Cod & "'"
+        cSL = "Select * from " & Tabla & "  Where " & campo & " =  '" & Cod & "'"
  Else
        If UCase$(Tabla) = "PUNTO_VENTA" Then
-                cSL = "Select * from " & Tabla & "  Where " & Campo & " =  '" & Cod & "'"
+                cSL = "Select * from " & Tabla & "  Where " & campo & " =  '" & Cod & "'"
        Else
-                cSL = "Select * from " & Tabla & "  Where " & Campo & " =  '" & Cod & "'"
+                cSL = "Select * from " & Tabla & "  Where " & campo & " =  '" & Cod & "'"
        End If
        If Trim$(Cod2) <> "" Then
             cSL = cSL & " And  " & cCampo2 & " =  '" & SupCadSQL(Cod2) & "'"
@@ -448,7 +448,7 @@ Case 1 'Bd. Comun
 Case 2 'Bd. Config
             cSel1.Open cSL, VGConfig, adOpenStatic
 Case 3 'Bd. Contab
-            cSel1.Open cSL, VGcnxCT, adOpenStatic
+            cSel1.Open cSL, VGCnxCT, adOpenStatic
 End Select
 
 If cSel1.RecordCount > 0 Then
@@ -560,9 +560,9 @@ On Error GoTo X
     Screen.MousePointer = 1
     Exit Sub
 X:
-  If err.Number = 9 Then Resume Next
+  If Err.Number = 9 Then Resume Next
   Screen.MousePointer = 1
-  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
+  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
 End Sub
 Private Sub CrystOrden(ByRef cry As CrystalReport, cad As String)
 Dim pos As Integer, cadaux As String, i As Integer
@@ -616,9 +616,9 @@ On Error GoTo X
     Screen.MousePointer = 1
     Exit Sub
 X:
-  If err.Number = 9 Then Resume Next
+  If Err.Number = 9 Then Resume Next
   Screen.MousePointer = 1
-  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
+  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
 End Sub
 Public Sub PropCrystal(ByRef CrystalRpt As CrystalReport)
     CrystalRpt.WindowShowCancelBtn = True
@@ -690,26 +690,26 @@ On Error GoTo X
     Screen.MousePointer = 1
     Exit Sub
 X:
-  If err.Number = 9 Then Resume Next
+  If Err.Number = 9 Then Resume Next
   Screen.MousePointer = 1
-  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
+  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
 End Sub
 Public Function XRecuperaTipoCambio(Fecha As Date, tipo As tipocambio, cnx As ADODB.Connection) As Double
 Dim rsaux As ADODB.Recordset
 Set rsaux = New ADODB.Recordset
-Dim Campo As String
+Dim campo As String
     XRecuperaTipoCambio = 0
     Select Case tipo
         Case Compra
-            Campo = "tipocambiocompra"
+            campo = "tipocambiocompra"
         Case Venta
-            Campo = "tipocambioventa"
+            campo = "tipocambioventa"
         Case Promedio
-            Campo = "tipocambiopromedio"
+            campo = "tipocambiopromedio"
         Case Else
-            Campo = "tipocambioventa"
+            campo = "tipocambioventa"
     End Select
-    SQL = "Select Valor=isnull(" & Campo & ",0)  from ct_tipocambio where convert(varchar(10),tipocambiofecha,103) ='" & Fecha & "'"
+    SQL = "Select Valor=isnull(" & campo & ",0)  from ct_tipocambio where convert(varchar(10),tipocambiofecha,103) ='" & Fecha & "'"
     Set rsaux = VGCNx.Execute(SQL)
     If rsaux.RecordCount > 0 Then
         XRecuperaTipoCambio = rsaux!valor
@@ -730,12 +730,52 @@ On Error GoTo SaliError
 SaliError:
     Screen.MousePointer = 1
     ExisteSQL = False
-    MsgBox err.Description
+    MsgBox Err.Description
     Exit Function
     Resume
 End Function
 
 Public Sub ADOConectar()
+
+    Set VGdllApi = New dll_apisgen.dll_apis
+    VGcomputer = UCase$(ComputerName)
+    VGsql = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONEXION", "SQL", "?")
+    VGsql = IIf(VGsql = "?", 0, VGsql)
+   VGParametros.empresacodigo = "01"
+   
+    VGformatofecha = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONEXION", "FECHASQL", "?")
+    VGformatofecha = IIf(VGformatofecha = "?", "DMY", VGformatofecha)
+    
+   
+    VGParamSistem.BDEmpresaGEN = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "BDGENERAL", "BDDATOS", "?")
+    VGParamSistem.ServidorGEN = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "BDGENERAL", "SERVIDOR", "?")
+    VGParamSistem.UsuarioGEN = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "BDGENERAL", "USUARIO", "?")
+    VGParamSistem.PwdGEN = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "BDGENERAL", "PASSW", "?")
+    
+        VGParamSistem.BDEmpresa = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONEXION", "BDDATOS", "?")
+        VGParamSistem.Servidor = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONEXION", "SERVIDOR", "?")
+        VGParamSistem.Usuario = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONEXION", "USUARIO", "?")
+        VGParamSistem.UsuarioReporte = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONEXION", "USUARIO", "?")
+        VGParamSistem.Pwd = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONEXION", "PASSW", "?")
+    
+   VGParamSistem.BDempresaCONF = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONEXION", "BDDATOSCONF", "?")
+   If VGParamSistem.BDempresaCONF = "?" Then VGParamSistem.BDempresaCONF = "bdwenco"
+    
+VGParamSistem.BDEmpresaCT = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONTABILIDAD", "BDDATOS", "?")
+VGParamSistem.ServidorCT = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONTABILIDAD", "SERVIDOR", "?")
+VGParamSistem.UsuarioCT = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONTABILIDAD", "USUARIO", "?")
+VGParamSistem.PwdCT = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "CONTABILIDAD", "PASSW", "?")
+   
+   If VGParamSistem.BDEmpresa = "?" Or VGParamSistem.Servidor = "?" Then
+        MsgBox "No se ha Configurado bien los parametros BDDATOS y SERVIDOR en el archivo " & Chr(13) & _
+               App.Path & "\MARFICE.INI"
+    End If
+    
+
+       
+'Establecer Cadena de Conexión de Reportes
+VGCadenaReport2 = "DSN=jckconsultores;DSQ=" & VGParamSistem.BDEmpresaGEN & ";UID=" & VGParamSistem.UsuarioGEN & ";PWD=" & VGParamSistem.PwdGEN & ""
+
 On Error GoTo error
 Set VGGeneral = New ADODB.Connection
 VGGeneral.CursorLocation = adUseClient
@@ -751,37 +791,37 @@ Set VGConfig = New ADODB.Connection
 VGConfig.CursorLocation = adUseClient
 VGConfig.CommandTimeout = 0
 VGConfig.ConnectionTimeout = 0
-VGConfig.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.Usuario & ";Password=" & VGParamSistem.PWD & ";Initial Catalog=" & VGParamSistem.BDEmpresaCONF & ";Data Source=" & VGParamSistem.Servidor
+VGConfig.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.Usuario & ";Password=" & VGParamSistem.Pwd & ";Initial Catalog=" & VGParamSistem.BDempresaCONF & ";Data Source=" & VGParamSistem.Servidor
 VGConfig.Open
     
 'Conexion de inventarios
 
 If VGParamSistem.BDEmpresa = "" Or VGParamSistem.BDEmpresa = "?" Then
-   Set RSQL = VGConfig.Execute("select empresabaseinventarios from empresa where empresaflaginventarios=1")
-   VGParamSistem.BDEmpresa = RSQL!empresabaseinventarios
+   Set rsql = VGConfig.Execute("select empresabaseinventarios from empresa where empresaflaginventarios=1")
+   VGParamSistem.BDEmpresa = rsql!empresabaseinventarios
 End If
 Set VGCNx = New ADODB.Connection
 VGCNx.CursorLocation = adUseClient
 VGCNx.CommandTimeout = 0
 VGCNx.ConnectionTimeout = 0
-VGCNx.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.Usuario & ";Password=" & VGParamSistem.PWD & ";Initial Catalog=" & VGParamSistem.BDEmpresa & ";Data Source=" & VGParamSistem.Servidor
+VGCNx.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.Usuario & ";Password=" & VGParamSistem.Pwd & ";Initial Catalog=" & VGParamSistem.BDEmpresa & ";Data Source=" & VGParamSistem.Servidor
 VGCNx.Open
     
 'Conexion de Contabilidad
 
-Set VGcnxCT = New ADODB.Connection
-VGcnxCT.CursorLocation = adUseClient
-VGcnxCT.CommandTimeout = 0
-VGcnxCT.ConnectionTimeout = 0
-VGcnxCT.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.UsuarioCT & ";Password=" & VGParamSistem.PwdCT & ";Initial Catalog=" & VGParamSistem.BDEmpresaCT & ";Data Source=" & VGParamSistem.ServidorCT
-VGcnxCT.Open
+Set VGCnxCT = New ADODB.Connection
+VGCnxCT.CursorLocation = adUseClient
+VGCnxCT.CommandTimeout = 0
+VGCnxCT.ConnectionTimeout = 0
+VGCnxCT.ConnectionString = "Provider=SQLOLEDB.1;Persist Security Info=False;User ID=" & VGParamSistem.UsuarioCT & ";Password=" & VGParamSistem.PwdCT & ";Initial Catalog=" & VGParamSistem.BDEmpresaCT & ";Data Source=" & VGParamSistem.ServidorCT
+VGCnxCT.Open
     
 'Call adicionacamposct
 Exit Sub
 
 error:
     
-MsgBox err.Description, vbExclamation
+MsgBox Err.Description, vbExclamation
 Exit Sub
 Resume
 End Sub
@@ -810,10 +850,10 @@ On Error GoTo errfun
    End If
    Exit Function
 errfun:
-   ESNULO = 0
+   ESNULO = valor
 End Function
 Public Function ExisteElem(ByRef Tip As Integer, ByRef VGCN As ADODB.Connection, ByRef Tabla As String, _
-        Optional Campo As String) As Boolean
+        Optional campo As String) As Boolean
 'Funcion que devuelve un valor verdadero si es que encuentra el elemento
 'Creado por Fernando Cossio
     Dim SQL As String
@@ -822,14 +862,14 @@ Public Function ExisteElem(ByRef Tip As Integer, ByRef VGCN As ADODB.Connection,
    '0 Si Existe la tabla
    '1 Si Existe el Campo
    ExisteElem = False
-   Tabla = UCase$(Tabla): Campo = UCase$(Campo)
+   Tabla = UCase$(Tabla): campo = UCase$(campo)
 On Error GoTo ErrExiste
    SQL = ""
     Select Case Tip
         Case 0:
             SQL = "Select Top 1 * From " & Tabla
         Case 1:
-            SQL = "Select Top 1 " & Campo & " From " & Tabla
+            SQL = "Select Top 1 " & campo & " From " & Tabla
     End Select
     Set rsaux = VGCN.Execute(SQL)
     ExisteElem = True
@@ -895,15 +935,15 @@ End Function
 ' End With
 'End Sub
 
-Public Function Devolver_Dato(tipo As Integer, Cod As String, Tabla As String, Campo As String, Fecha As Boolean, CampDev As String, Optional Cod2 As String, Optional Campo2 As String, Optional Cod3 As String, Optional Campo3 As String, Optional Cod4 As Double, Optional Campo4 As String) As String
+Public Function Devolver_Dato(tipo As Integer, Cod As String, Tabla As String, campo As String, Fecha As Boolean, CampDev As String, Optional Cod2 As String, Optional Campo2 As String, Optional Cod3 As String, Optional Campo3 As String, Optional Cod4 As Double, Optional Campo4 As String) As String
 Dim cSel1 As ADODB.Recordset, cF As String
 Set cSel1 = New ADODB.Recordset
 
-If Trim$(Campo) <> "" Then
+If Trim$(campo) <> "" Then
     If Fecha = False Then
-        cF = "Select " & CampDev & " from " & Tabla & "  Where " & Campo & " =  '" & Cod & "' "
+        cF = "Select " & CampDev & " from " & Tabla & "  Where " & campo & " =  '" & Cod & "' "
     Else
-        cF = "Select " & CampDev & " from " & Tabla & "  Where " & Campo & " =  #" & Format(Cod, "mm/dd/yyyy") & "#"
+        cF = "Select " & CampDev & " from " & Tabla & "  Where " & campo & " =  #" & Format(Cod, "mm/dd/yyyy") & "#"
     End If
 End If
 If Trim$(Campo2) <> "" Then
@@ -921,7 +961,7 @@ Select Case tipo
   Case 2 'Bd. Config
               cSel1.Open cF, VGConfig, adOpenStatic
   Case 3 'Bd. Contabilidad
-              cSel1.Open cF, VGcnxCT, adOpenStatic
+              cSel1.Open cF, VGCnxCT, adOpenStatic
 End Select
 
 If cSel1.RecordCount > 0 Then
@@ -1128,7 +1168,7 @@ Public Function numero(Number) As String
       aValor = Val(Number)
      End If
    End If
-   numero = Trim(Format(aValor, "#######0.00"))
+   numero = Format(aValor, "####,###.00")
 End Function
 
 Public Function MostrarForm(pVentana As Form, pPos As String)
@@ -1240,16 +1280,16 @@ Public Function TraeDataSerie(nsql As String, vcon As ADODB.Connection) As Strin
 End Function
 
 Public Function VerificaCombo(xcombo As ComboBox, ncadena As String) As Long
-    Dim J, k As Long
+    Dim J, K As Long
     On Error GoTo nerror
     VerificaCombo = -1
     If xcombo.ListCount > 0 Then
       VerificaCombo = 0
       For J = 0 To xcombo.ListCount - 1
          xcombo.ListIndex = J
-         k = InStr(xcombo, "-")
-         If k > 1 Then
-           If Left(xcombo.Text, k - 1) = ncadena Then
+         K = InStr(xcombo, "-")
+         If K > 1 Then
+           If Left(xcombo.Text, K - 1) = ncadena Then
              VerificaCombo = J
              Exit For
            End If
@@ -1264,9 +1304,9 @@ Public Function VerificaCombo(xcombo As ComboBox, ncadena As String) As Long
     End If
     
 nerror:
-  If err Then
-    MsgBox err.Number & "-" & err.Description
-    err = 0
+  If Err Then
+    MsgBox Err.Number & "-" & Err.Description
+    Err = 0
     Resume Next
   End If
 End Function
@@ -1354,34 +1394,34 @@ With MDIPrincipal.CryRptProc
         .ReportFileName = .ReportFileName & "\"
   End If
   .ReportFileName = .ReportFileName & cNombreReporte
-  .Connect = "Provider=SQLOLEDB;PWD=" & VGParamSistem.PWD & ";UID=" & VGParamSistem.Usuario & ";DSQ=" & VGParamSistem.BDEmpresa & ";DSN=" & VGParamSistem.Servidor
+  .Connect = "Provider=SQLOLEDB;PWD=" & VGParamSistem.Pwd & ";UID=" & VGParamSistem.Usuario & ";DSQ=" & VGParamSistem.BDEmpresa & ";DSN=" & VGParamSistem.Servidor
   .formulas(0) = "Empresa='" & VGParametros.NomEmpresa & "'"
   .Action = 1
 End With
 Exit Sub
     
 Errores:
-  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
-  err = 0
+  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
+  Err = 0
   Exit Sub
   
 End Sub
-Public Sub GeneraAsientoEnlineaTesorTransfer(Empresa As String, Fecha As Date, Nrecibo As String)
+Public Sub GeneraAsientoEnlineaTesorTransfer(empresa As String, Fecha As Date, Nrecibo As String)
 Dim rsparimpo As ADODB.Recordset
 Dim Comando As ADODB.Command
 On Error GoTo Procesotransf
     Set rsparimpo = New ADODB.Recordset
-    rsparimpo.Open "Select * From  ct_importartesoreria Where Left(Upper(tipooperacion),1) ='T'", VGcnxCT, adOpenKeyset, adLockReadOnly
+    rsparimpo.Open "Select * From  ct_importartesoreria Where Left(Upper(tipooperacion),1) ='T'", VGCnxCT, adOpenKeyset, adLockReadOnly
     Set Comando = New ADODB.Command
         With Comando
             .CommandType = adCmdStoredProc
             .CommandText = "te_GeneraAsientosTesoreriaTransflinea_pro"
             .ActiveConnection = VGGeneral
             .Parameters.Refresh
-            .Parameters("@BaseConta") = VGcnxCT.DefaultDatabase
+            .Parameters("@BaseConta") = VGCnxCT.DefaultDatabase
             .Parameters("@BaseVenta") = VGCNx.DefaultDatabase
-            .Parameters("@empresa") = Empresa
-            .Parameters("@Asiento") = rsparimpo!asiento
+            .Parameters("@empresa") = empresa
+            .Parameters("@Asiento") = rsparimpo!Asiento
             .Parameters("@SubAsiento") = rsparimpo!SubAsiento
             .Parameters("@Libro") = rsparimpo!libro
             
@@ -1399,11 +1439,11 @@ On Error GoTo Procesotransf
         Exit Sub
 Procesotransf:
         Screen.MousePointer = 1
-        MsgBox err.Description
+        MsgBox Err.Description
         Exit Sub
         Resume
 End Sub
-Public Sub GeneraAsientoEnlineaTesor(Fecha As Date, Empresa As String, m_opcion As String, Nrecibo As String, op As Integer, comprobconta As String, monedacodigo As String, cajabanco As String, m_tipovoucher As String)
+Public Sub GeneraAsientoEnlineaTesor(Fecha As Date, empresa As String, m_opcion As String, Nrecibo As String, op As Integer, comprobconta As String, monedacodigo As String, cajabanco As String, m_tipovoucher As String)
 Dim rsparimpo As ADODB.Recordset
 Dim numerror As Integer
 Dim Comando As ADODB.Command
@@ -1414,7 +1454,7 @@ On Error GoTo Proceso
 
 Set rsparimpo = New ADODB.Recordset
 
-rsparimpo.Open "Select * From  ct_importartesoreria Where tipooperacion ='" & UCase(m_opcion) & "' ", VGcnxCT, adOpenKeyset, adLockReadOnly
+rsparimpo.Open "Select * From  ct_importartesoreria Where tipooperacion ='" & UCase(m_opcion) & "' ", VGCnxCT, adOpenKeyset, adLockReadOnly
 If rsparimpo.RecordCount() > 0 Then
 
    Set Comando = New ADODB.Command
@@ -1424,10 +1464,10 @@ If rsparimpo.RecordCount() > 0 Then
         .CommandTimeout = 0
         .ActiveConnection = VGGeneral
         .Parameters.Refresh
-        .Parameters("@BaseConta") = VGcnxCT.DefaultDatabase
+        .Parameters("@BaseConta") = VGCnxCT.DefaultDatabase
         .Parameters("@BaseVenta") = VGCNx.DefaultDatabase
-        .Parameters("@empresa") = Empresa
-        .Parameters("@Asiento") = rsparimpo!asiento
+        .Parameters("@empresa") = empresa
+        .Parameters("@Asiento") = rsparimpo!Asiento
         .Parameters("@SubAsiento") = rsparimpo!SubAsiento
         .Parameters("@Libro") = rsparimpo!libro
          
@@ -1455,7 +1495,7 @@ Exit Sub
 Proceso:
    numerror = 1
    Screen.MousePointer = 1
-    MsgBox err.Description
+    MsgBox Err.Description
     VGCNx.RollbackTrans
    Exit Sub
    Resume
@@ -1475,3 +1515,94 @@ Public Function DatoMoneda(xValor As String) As String
 
 End Function
 
+Public Sub ADOConectarReport(Report As String)
+  
+ VGParamSistem.RutaReport = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "REPORTES", "" & Report & "", "?")
+ VGParamSistem.carpetareportes = VGdllApi.LeerIni(App.Path & "\MARFICE.INI", "conexion", "CARPETAREPORTES", "?")
+        
+End Sub
+
+Public Function CODIFICASQL(cadena As String) As String
+    Dim ciclo As Integer, posic As Integer
+    Dim utl_sal As Integer
+    Dim carac As String, cadena_cod As String, cad As String
+    posic = 0: utl_sal = 0
+    carac = "": cadena_cod = "": cad = ""
+    cadena = UCase$(Trim$(cadena))
+    For ciclo = 1 To Len(cadena)
+     carac = Mid$(cadena, ciclo, 1)
+     If (ciclo Mod 2) = 0 Then
+      carac = UCase$(carac)
+     Else
+      carac = LCase(carac)
+     End If
+     cadena_cod = cadena_cod & carac
+    Next ciclo
+    
+    For ciclo = 1 To Len(cadena_cod)
+        posic = ciclo Mod 2
+        carac = Mid$(cadena_cod, ciclo, 1)
+        Select Case posic
+        Case 0:
+            carac = Chr(Asc(carac) * 2)
+        Case 1:
+            carac = Chr(Asc(carac) - 2)
+        End Select
+        cad = cad + carac
+    Next ciclo
+CODIFICASQL = cad
+End Function
+
+Public Function DECODIFICASQL(cadena As String) As String
+    Dim ciclo As Integer, posic As Integer, val_n As Integer, val_an As Integer
+    Dim carac As String, cad As String
+    cadena = Trim$(cadena)
+    cad = ""
+    val_n = 0: val_an = 0
+    For ciclo = 1 To Len(cadena)
+        carac = Mid$(cadena, ciclo, 1)
+        posic = ciclo Mod 2
+        Select Case posic
+        Case 0:
+            val_n = Asc(carac) / 2
+            cad = cad + LCase$(Chr(val_n))
+         Case 1:
+            val_n = Asc(carac) + 2
+            cad = cad + Chr(val_n)
+     End Select
+    Next ciclo
+    DECODIFICASQL = cad
+End Function
+
+
+Public Function numeroEntero(Number) As Double
+   Dim aValor As Double
+   If IsNull(Number) Or Len(Trim(Number)) = 0 Then
+     numeroEntero = 0
+   Else
+     numeroEntero = Number
+   End If
+End Function
+
+Public Sub llenagrupoempresa(ByRef rs As Recordset, campo As String, ByRef usuar As String)
+Dim xusuario As String
+xusuario = ""
+
+VGcomputer = UCase$(ComputerName(1))
+If ExisteElem(0, VGConfig, "si_empresaxusuario") Then
+   If ExisteElem(0, VGConfig, VGcomputer) Then
+      Set rs = VGConfig.Execute(" select * from " & VGcomputer & " where tipodesistema=" & VGtipo & "")
+      If rs.RecordCount > 0 Then
+         xusuario = rs!usuariocodigo
+         usuar = xusuario
+         SQL = "Select a.* from EMPRESA a inner join si_empresaxusuario b "
+         SQL = SQL & " on a.emp_codigo collate Modern_Spanish_CI_AS=b.empresacodigo collate Modern_Spanish_CI_AS"
+         SQL = SQL & " where " & campo & "= 1 and b.usuariocodigo='" & xusuario & "'  order by EMP_CODIGO "
+      End If
+   End If
+End If
+VGcomputer = UCase$(ComputerName())
+If SQL = "" Then SQL = "Select * from EMPRESA where " & campo & "= 1 order by EMP_CODIGO "
+Set rs = Nothing
+Set rs = VGConfig.Execute(SQL)
+End Sub

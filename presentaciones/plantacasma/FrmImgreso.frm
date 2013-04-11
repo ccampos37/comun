@@ -26,8 +26,8 @@ Begin VB.Form FrmIngreso
       BackColor       =   &H00FFFFFF&
       Caption         =   "Ususarios"
       Height          =   2175
-      Left            =   2640
-      TabIndex        =   21
+      Left            =   960
+      TabIndex        =   20
       Top             =   2160
       Width           =   4695
       Begin VB.CommandButton cmdCancel 
@@ -47,7 +47,7 @@ Begin VB.Form FrmIngreso
          MaskColor       =   &H00FFFFFF&
          Picture         =   "FrmImgreso.frx":000C
          Style           =   1  'Graphical
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   1080
          Width           =   900
       End
@@ -58,7 +58,7 @@ Begin VB.Form FrmIngreso
          Left            =   720
          Picture         =   "FrmImgreso.frx":044E
          Style           =   1  'Graphical
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   1080
          Width           =   900
       End
@@ -66,7 +66,7 @@ Begin VB.Form FrmIngreso
          Height          =   405
          Left            =   1800
          MaxLength       =   8
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   360
          Width           =   1815
       End
@@ -76,7 +76,7 @@ Begin VB.Form FrmIngreso
          ForeColor       =   &H00FF0000&
          Height          =   255
          Left            =   480
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   480
          Width           =   735
       End
@@ -93,14 +93,14 @@ Begin VB.Form FrmIngreso
          BackColor       =   &H00808000&
          Caption         =   "Case 7:"
          Height          =   2535
-         Left            =   3240
-         TabIndex        =   26
+         Left            =   1920
+         TabIndex        =   25
          Top             =   2520
          Width           =   5415
          Begin VB.Frame Frame1 
             Height          =   1215
             Left            =   120
-            TabIndex        =   32
+            TabIndex        =   31
             Top             =   1080
             Width           =   3735
             Begin VB.OptionButton Optionempresas 
@@ -117,7 +117,7 @@ Begin VB.Form FrmIngreso
                ForeColor       =   &H00C00000&
                Height          =   435
                Left            =   0
-               TabIndex        =   34
+               TabIndex        =   33
                Top             =   600
                Width           =   3615
             End
@@ -135,7 +135,7 @@ Begin VB.Form FrmIngreso
                ForeColor       =   &H00C00000&
                Height          =   195
                Left            =   120
-               TabIndex        =   33
+               TabIndex        =   32
                Top             =   240
                Width           =   2775
             End
@@ -149,7 +149,7 @@ Begin VB.Form FrmIngreso
             MaskColor       =   &H00FFFFFF&
             Picture         =   "FrmImgreso.frx":0890
             Style           =   1  'Graphical
-            TabIndex        =   29
+            TabIndex        =   28
             Top             =   1440
             Width           =   900
          End
@@ -162,7 +162,7 @@ Begin VB.Form FrmIngreso
             MaskColor       =   &H00FFFFFF&
             Picture         =   "FrmImgreso.frx":0CD2
             Style           =   1  'Graphical
-            TabIndex        =   28
+            TabIndex        =   27
             Top             =   360
             Width           =   900
          End
@@ -172,7 +172,7 @@ Begin VB.Form FrmIngreso
             Left            =   2040
             MaxLength       =   8
             PasswordChar    =   "*"
-            TabIndex        =   27
+            TabIndex        =   26
             Top             =   360
             Width           =   1815
          End
@@ -182,7 +182,7 @@ Begin VB.Form FrmIngreso
             ForeColor       =   &H00FFFFFF&
             Height          =   255
             Left            =   600
-            TabIndex        =   30
+            TabIndex        =   29
             Top             =   480
             Width           =   1095
          End
@@ -211,16 +211,9 @@ Begin VB.Form FrmIngreso
          _Version        =   348160
          PrintFileLinesPerPage=   60
       End
-      Begin VB.Line Line12 
-         X1              =   1440
-         X2              =   2400
-         Y1              =   3600
-         Y2              =   3600
-      End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
-         Caption         =   "Pymes"
-         Enabled         =   0   'False
+         Caption         =   "Costos"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -230,14 +223,38 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
+         Height          =   375
+         Index           =   9
+         Left            =   360
+         MouseIcon       =   "FrmImgreso.frx":39D5
+         MousePointer    =   99  'Custom
+         TabIndex        =   34
+         Top             =   2400
+         Visible         =   0   'False
+         Width           =   975
+      End
+      Begin VB.Label Label10 
+         BackStyle       =   0  'Transparent
+         Caption         =   "Pymes"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   11
          Left            =   240
-         MouseIcon       =   "FrmImgreso.frx":39D5
+         MouseIcon       =   "FrmImgreso.frx":3CDF
          MousePointer    =   99  'Custom
-         TabIndex        =   31
+         TabIndex        =   30
          Top             =   3360
+         Visible         =   0   'False
          Width           =   975
       End
       Begin VB.Label Label9 
@@ -255,9 +272,9 @@ Begin VB.Form FrmIngreso
          ForeColor       =   &H000000C0&
          Height          =   240
          Left            =   8040
-         MouseIcon       =   "FrmImgreso.frx":3CDF
+         MouseIcon       =   "FrmImgreso.frx":3FE9
          MousePointer    =   99  'Custom
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   6120
          Width           =   735
       End
@@ -277,14 +294,13 @@ Begin VB.Form FrmIngreso
          ForeColor       =   &H00FFFFFF&
          Height          =   195
          Left            =   7680
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   6240
          Width           =   135
       End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
          Caption         =   "Tesoreria"
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -294,20 +310,20 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   4
          Left            =   6720
-         MouseIcon       =   "FrmImgreso.frx":3FE9
+         MouseIcon       =   "FrmImgreso.frx":42F3
          MousePointer    =   99  'Custom
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   3810
+         Visible         =   0   'False
          Width           =   1335
       End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
          Caption         =   "Cuentas Por Cobrar"
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -317,20 +333,20 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   7
          Left            =   6720
-         MouseIcon       =   "FrmImgreso.frx":42F3
+         MouseIcon       =   "FrmImgreso.frx":45FD
          MousePointer    =   99  'Custom
-         TabIndex        =   17
+         TabIndex        =   16
          Top             =   2970
+         Visible         =   0   'False
          Width           =   2415
       End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
          Caption         =   " Almacen"
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -340,20 +356,20 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   1
          Left            =   6600
-         MouseIcon       =   "FrmImgreso.frx":45FD
+         MouseIcon       =   "FrmImgreso.frx":4907
          MousePointer    =   99  'Custom
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   2250
+         Visible         =   0   'False
          Width           =   1335
       End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
          Caption         =   "Cuentas Por Pagar"
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -363,20 +379,20 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   3
          Left            =   240
-         MouseIcon       =   "FrmImgreso.frx":4907
+         MouseIcon       =   "FrmImgreso.frx":4C11
          MousePointer    =   99  'Custom
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   5370
+         Visible         =   0   'False
          Width           =   2415
       End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
          Caption         =   "Provisiones"
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -386,20 +402,20 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   2
          Left            =   4920
-         MouseIcon       =   "FrmImgreso.frx":4C11
+         MouseIcon       =   "FrmImgreso.frx":4F1B
          MousePointer    =   99  'Custom
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   1050
+         Visible         =   0   'False
          Width           =   1575
       End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
          Caption         =   "Contabilidad"
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -409,20 +425,20 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   5
          Left            =   3000
-         MouseIcon       =   "FrmImgreso.frx":4F1B
+         MouseIcon       =   "FrmImgreso.frx":5225
          MousePointer    =   99  'Custom
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   1050
+         Visible         =   0   'False
          Width           =   1575
       End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
          Caption         =   " Facturacion"
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -432,14 +448,15 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   6
          Left            =   1080
-         MouseIcon       =   "FrmImgreso.frx":5225
+         MouseIcon       =   "FrmImgreso.frx":552F
          MousePointer    =   99  'Custom
-         TabIndex        =   12
+         TabIndex        =   11
          Top             =   1050
+         Visible         =   0   'False
          Width           =   1815
       End
       Begin VB.Label Label21 
@@ -458,9 +475,9 @@ Begin VB.Form FrmIngreso
          ForeColor       =   &H00FF0000&
          Height          =   255
          Left            =   -120
-         MouseIcon       =   "FrmImgreso.frx":552F
+         MouseIcon       =   "FrmImgreso.frx":5839
          MousePointer    =   99  'Custom
-         TabIndex        =   11
+         TabIndex        =   10
          Top             =   6450
          Width           =   2895
       End
@@ -477,19 +494,19 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H00FF0000&
+         ForeColor       =   &H000000FF&
          Height          =   375
          Left            =   -240
-         MouseIcon       =   "FrmImgreso.frx":5839
+         MouseIcon       =   "FrmImgreso.frx":5B43
          MousePointer    =   99  'Custom
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   240
          Width           =   4095
       End
       Begin VB.Label Label22 
          Alignment       =   2  'Center
          BackStyle       =   0  'Transparent
-         Caption         =   "Version 2010.09"
+         Caption         =   "Version 2013.03"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -502,16 +519,15 @@ Begin VB.Form FrmIngreso
          ForeColor       =   &H00FF0000&
          Height          =   375
          Left            =   -840
-         MouseIcon       =   "FrmImgreso.frx":5B43
+         MouseIcon       =   "FrmImgreso.frx":5E4D
          MousePointer    =   99  'Custom
-         TabIndex        =   9
+         TabIndex        =   8
          Top             =   6720
          Width           =   4095
       End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
          Caption         =   "Activos Fiijos"
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -521,20 +537,20 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   8
          Left            =   2880
-         MouseIcon       =   "FrmImgreso.frx":5E4D
+         MouseIcon       =   "FrmImgreso.frx":6157
          MousePointer    =   99  'Custom
-         TabIndex        =   8
+         TabIndex        =   7
          Top             =   5400
+         Visible         =   0   'False
          Width           =   1815
       End
       Begin VB.Label Label10 
          BackStyle       =   0  'Transparent
          Caption         =   "Planillas"
-         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -544,98 +560,16 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H000000FF&
+         ForeColor       =   &H00FF0000&
          Height          =   375
          Index           =   10
          Left            =   5160
-         MouseIcon       =   "FrmImgreso.frx":6157
-         MousePointer    =   99  'Custom
-         TabIndex        =   7
-         Top             =   5400
-         Width           =   1815
-      End
-      Begin VB.Line Line2 
-         X1              =   3600
-         X2              =   3600
-         Y1              =   1440
-         Y2              =   2280
-      End
-      Begin VB.Line Line3 
-         X1              =   5040
-         X2              =   5040
-         Y1              =   1440
-         Y2              =   2160
-      End
-      Begin VB.Line Line5 
-         X1              =   6600
-         X2              =   5640
-         Y1              =   3120
-         Y2              =   3120
-      End
-      Begin VB.Line Line6 
-         X1              =   6600
-         X2              =   5640
-         Y1              =   3960
-         Y2              =   3960
-      End
-      Begin VB.Line Line4 
-         X1              =   6480
-         X2              =   5640
-         Y1              =   2400
-         Y2              =   2400
-      End
-      Begin VB.Line Line1 
-         X1              =   2160
-         X2              =   2160
-         Y1              =   1440
-         Y2              =   2160
-      End
-      Begin VB.Line Line8 
-         X1              =   2400
-         X2              =   2400
-         Y1              =   5040
-         Y2              =   5400
-      End
-      Begin VB.Line Line9 
-         X1              =   3720
-         X2              =   3720
-         Y1              =   5040
-         Y2              =   5520
-      End
-      Begin VB.Label Label10 
-         BackStyle       =   0  'Transparent
-         Caption         =   "Costos"
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H000000FF&
-         Height          =   375
-         Index           =   9
-         Left            =   360
          MouseIcon       =   "FrmImgreso.frx":6461
          MousePointer    =   99  'Custom
          TabIndex        =   6
-         Top             =   2400
+         Top             =   5400
+         Visible         =   0   'False
          Width           =   1815
-      End
-      Begin VB.Line Line11 
-         X1              =   1440
-         X2              =   2040
-         Y1              =   2640
-         Y2              =   2640
-      End
-      Begin VB.Line Line10 
-         X1              =   5520
-         X2              =   5535
-         Y1              =   5040
-         Y2              =   5415
       End
       Begin VB.Label LabelAdm 
          BackStyle       =   0  'Transparent
@@ -649,13 +583,14 @@ Begin VB.Form FrmIngreso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         ForeColor       =   &H00FF0000&
+         ForeColor       =   &H000000FF&
          Height          =   375
          Left            =   4200
          MouseIcon       =   "FrmImgreso.frx":676B
          MousePointer    =   99  'Custom
          TabIndex        =   5
          Top             =   6480
+         Visible         =   0   'False
          Width           =   1815
       End
    End
@@ -781,8 +716,6 @@ VGConfig.Open
 
 End Sub
 
-
-
 Private Sub Label10_Click(Index As Integer)
 If ExisteElem(0, VGConfig, VGComputer) Then
    VGConfig.Execute ("DELETE " & VGComputer & " where tipodesistema=" & Index & "")
@@ -810,6 +743,10 @@ Case 6:
     S = Shell(App.Path & "\" & VGfactu, vbNormalFocus)
 Case 7:
     S = Shell(App.Path & "\" & VGcte, vbNormalFocus)
+Case 8:
+    S = Shell(App.Path & "\" & VGActi, vbNormalFocus)
+Case 9:
+    S = Shell(App.Path & "\" & VGcosto, vbNormalFocus)
 End Select
 
 's = Shell(App.Path & Ejecutable, vbNormalFocus)
@@ -852,9 +789,12 @@ SQL = " select * from si_sistemaxusuario where usuariocodigo='" & Text1.Text & "
 Set rsql = VGConfig.Execute(SQL)
 If rsql.RecordCount > 0 Then rsql.MoveFirst
 Do While Not rsql.EOF
-   Label10(rsql!tipodesistema).Enabled = True
+   Label10(rsql!tipodesistema).Visible = True
    rsql.MoveNext
 Loop
+If Text1.Text = UCase$("admin") Then
+   LabelAdm.Visible = True
+End If
 End Sub
 Private Sub LabelAdm_Click()
 FramePass.Visible = True
