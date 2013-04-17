@@ -5,7 +5,7 @@ Public VGCNx As New ADODB.Connection             'Conexion de la BD empresa
 Public VGCnxCT As New ADODB.Connection        'Conexion de Contabilidad
 Public VGGeneral As New ADODB.Connection      'Conexion de la BD Generales
 Public VGConfig As New ADODB.Connection      'Conexion de la BD de configuracion
-
+Public VGdllApi As New dll_apisgen.dll_apis
 Public UsuarioReporte As String
 Public VGnumniveles As Integer               'Número de Niveles del Plan de Cuentas
 Public VGnumnivgas As Integer               'Número de Niveles del Plan de gastos
@@ -122,17 +122,17 @@ Public Sub adicionarcamposCT()
     If Not ExisteElem(1, VGCNx, "ct_centrocosto", "estructuranumerolinea") Then
         VGCNx.Execute "ALTER TABLE ct_centrocosto ADD estructuranumerolinea varchar(10) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumdebe00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumdebe00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumdebe00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumdebe00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumhaber00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumhaber00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumhaber00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumhaber00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumussdebe00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumussdebe00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumussdebe00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumussdebe00 float default (0) "
    End If
-    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.AnoProceso & "", "saldoacumussHaber00") Then
-        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.AnoProceso & " ADD saldoacumussHaber00 float default (0) "
+    If Not ExisteElem(1, VGCNx, "ct_saldos" & VGParamSistem.Anoproceso & "", "saldoacumussHaber00") Then
+        VGCNx.Execute "ALTER TABLE ct_saldos" & VGParamSistem.Anoproceso & " ADD saldoacumussHaber00 float default (0) "
    End If
     If Not ExisteElem(1, VGCNx, "ct_cuenta", "cuentaadicionacargo") Then
         VGCNx.Execute "ALTER TABLE ct_cuenta ADD cuentaadicionacargo char(1) default ('0') "
@@ -461,7 +461,7 @@ End Function
 Public Function Validar_RUC(xRuc As String) As Boolean
  Dim flag As Boolean
  Dim TAB_VAL(1 To 7) As Integer
- Dim nX As Integer, NY As Integer, NR As Integer, i As Integer
+ Dim nX As Integer, NY As Integer, NR As Integer, I As Integer
  Dim CadNR As String
  
 ' TAB_VAL(1) = 2
@@ -517,8 +517,8 @@ Public Function SupCadSQL(S As String) As String
 End Function
 
 Public Sub ImpresionRptProc(cNombreReporte As String, PFormulas(), Param(), Optional ORDEN As String, Optional titulo As String)
-Dim i As Integer
-On Error GoTo X
+Dim I As Integer
+On Error GoTo x
     Screen.MousePointer = 11
     With MDIPrincipal.CryRptProc
         .Reset
@@ -541,17 +541,17 @@ On Error GoTo X
            .Connect = VGCadenaReport2
         End If
            
-        .formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
-        .formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"     'aki va el ruc
+        .Formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
+        .Formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"     'aki va el ruc
         If UBound(PFormulas) > 0 Then
-            For i = 0 To UBound(PFormulas) - 1
-                .formulas(2 + i) = PFormulas(i)
+            For I = 0 To UBound(PFormulas) - 1
+                .Formulas(2 + I) = PFormulas(I)
             Next
         End If
         .DiscardSavedData = True
         If UBound(Param) > 0 Then
-            For i = 0 To UBound(Param) - 1
-                .StoredProcParam(i) = Param(i)
+            For I = 0 To UBound(Param) - 1
+                .StoredProcParam(I) = Param(I)
             Next
         End If
         If ORDEN <> "" Then Call CrystOrden(MDIPrincipal.CryRptProc, ORDEN)
@@ -559,29 +559,29 @@ On Error GoTo X
     End With
     Screen.MousePointer = 1
     Exit Sub
-X:
-  If Err.Number = 9 Then Resume Next
+x:
+  If err.Number = 9 Then Resume Next
   Screen.MousePointer = 1
-  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
+  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
 End Sub
 Private Sub CrystOrden(ByRef cry As CrystalReport, cad As String)
-Dim pos As Integer, cadaux As String, i As Integer
+Dim pos As Integer, cadaux As String, I As Integer
 Dim valor As String
-    i = 0
+    I = 0
     Do While True
         pos = InStr(1, cad, ",", vbTextCompare)
         'I = 0
         If pos = 0 Then Exit Do
         valor = Left$(cad, pos - 1)
-        cry.SortFields(i) = valor
-        i = i + 1
+        cry.SortFields(I) = valor
+        I = I + 1
         cad = Right$(cad, (Len(cad) - pos))
     Loop
 End Sub
 
 Sub ImpresionRptbase(cNombreReporte As String, PFormulas(), Param(), Optional ORDEN As String, Optional titulo As String)
-Dim i As Integer
-On Error GoTo X
+Dim I As Integer
+On Error GoTo x
     Screen.MousePointer = 11
     With MDIPrincipal.CryRptProc
         .Reset
@@ -597,17 +597,17 @@ On Error GoTo X
  
         End If
            
-        .formulas(0) = "@Emp='" & VGParametros.NomEmpresa & "'"
-        .formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
+        .Formulas(0) = "@Emp='" & VGParametros.NomEmpresa & "'"
+        .Formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
         If UBound(PFormulas) > 0 Then
-            For i = 0 To UBound(PFormulas) - 1
-                .formulas(2 + i) = PFormulas(i)
+            For I = 0 To UBound(PFormulas) - 1
+                .Formulas(2 + I) = PFormulas(I)
             Next
         End If
         .DiscardSavedData = True
         If UBound(Param) > 0 Then
-            For i = 0 To UBound(Param) - 1
-                .StoredProcParam(i) = Param(i)
+            For I = 0 To UBound(Param) - 1
+                .StoredProcParam(I) = Param(I)
             Next
         End If
         If ORDEN <> "" Then Call CrystOrden(MDIPrincipal.CryRptProc, ORDEN)
@@ -615,10 +615,10 @@ On Error GoTo X
     End With
     Screen.MousePointer = 1
     Exit Sub
-X:
-  If Err.Number = 9 Then Resume Next
+x:
+  If err.Number = 9 Then Resume Next
   Screen.MousePointer = 1
-  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
+  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
 End Sub
 Public Sub PropCrystal(ByRef CrystalRpt As CrystalReport)
     CrystalRpt.WindowShowCancelBtn = True
@@ -639,8 +639,8 @@ End Sub
 
 Sub ImpresionRpt_SubRpt_Proc(cNombreReporte As String, PFormulas(), Param(), cNombreSubRpt As String, Optional ORDEN As String, Optional titulo As String)
 Dim strBuscar As New dll_apis
-Dim i As Integer
-On Error GoTo X
+Dim I As Integer
+On Error GoTo x
     Screen.MousePointer = 11
     With MDIPrincipal.CryRptProc
         .Reset
@@ -656,17 +656,17 @@ On Error GoTo X
 
         End If
            
-        .formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
-        .formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
+        .Formulas(0) = "@Empresa='" & VGParametros.NomEmpresa & "'"
+        .Formulas(1) = "@Ruc='" & VGParametros.RucEmpresa & "'"
         If UBound(PFormulas) > 0 Then
-            For i = 0 To UBound(PFormulas) - 1
-                .formulas(2 + i) = PFormulas(i)
+            For I = 0 To UBound(PFormulas) - 1
+                .Formulas(2 + I) = PFormulas(I)
             Next
         End If
         .DiscardSavedData = True
         If UBound(Param) > 0 Then
-            For i = 0 To UBound(Param) - 1
-                .StoredProcParam(i) = Param(i)
+            For I = 0 To UBound(Param) - 1
+                .StoredProcParam(I) = Param(I)
             Next
         End If
          .DiscardSavedData = True
@@ -680,8 +680,8 @@ On Error GoTo X
         End If
 
         If UBound(Param) > 0 Then
-            For i = 0 To UBound(Param) - 1
-                .StoredProcParam(i) = Param(i)
+            For I = 0 To UBound(Param) - 1
+                .StoredProcParam(I) = Param(I)
             Next
         End If
         If ORDEN <> "" Then Call CrystOrden(MDIPrincipal.CryRptProc, ORDEN)
@@ -689,10 +689,10 @@ On Error GoTo X
     End With
     Screen.MousePointer = 1
     Exit Sub
-X:
-  If Err.Number = 9 Then Resume Next
+x:
+  If err.Number = 9 Then Resume Next
   Screen.MousePointer = 1
-  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
+  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
 End Sub
 Public Function XRecuperaTipoCambio(Fecha As Date, tipo As tipocambio, cnx As ADODB.Connection) As Double
 Dim rsaux As ADODB.Recordset
@@ -730,7 +730,7 @@ On Error GoTo SaliError
 SaliError:
     Screen.MousePointer = 1
     ExisteSQL = False
-    MsgBox Err.Description
+    MsgBox err.Description
     Exit Function
     Resume
 End Function
@@ -821,7 +821,7 @@ Exit Sub
 
 error:
     
-MsgBox Err.Description, vbExclamation
+MsgBox err.Description, vbExclamation
 Exit Sub
 Resume
 End Sub
@@ -1304,9 +1304,9 @@ Public Function VerificaCombo(xcombo As ComboBox, ncadena As String) As Long
     End If
     
 nerror:
-  If Err Then
-    MsgBox Err.Number & "-" & Err.Description
-    Err = 0
+  If err Then
+    MsgBox err.Number & "-" & err.Description
+    err = 0
     Resume Next
   End If
 End Function
@@ -1379,7 +1379,7 @@ Public Function DatoTipoCambio(xCn As ADODB.Connection, xfecha As String) As Dou
 End Function
 
 
-Public Sub Imprimir(cNombreReporte As String)
+Public Sub imprimir(cNombreReporte As String)
 Dim VGdllApi As New dll_apisgen.dll_apis
 On Error GoTo Errores
 
@@ -1395,14 +1395,14 @@ With MDIPrincipal.CryRptProc
   End If
   .ReportFileName = .ReportFileName & cNombreReporte
   .Connect = "Provider=SQLOLEDB;PWD=" & VGParamSistem.Pwd & ";UID=" & VGParamSistem.Usuario & ";DSQ=" & VGParamSistem.BDEmpresa & ";DSN=" & VGParamSistem.Servidor
-  .formulas(0) = "Empresa='" & VGParametros.NomEmpresa & "'"
+  .Formulas(0) = "Empresa='" & VGParametros.NomEmpresa & "'"
   .Action = 1
 End With
 Exit Sub
     
 Errores:
-  MsgBox "Error inesperado: " & Err.Number & "  " & Err.Description, vbExclamation
-  Err = 0
+  MsgBox "Error inesperado: " & err.Number & "  " & err.Description, vbExclamation
+  err = 0
   Exit Sub
   
 End Sub
@@ -1423,7 +1423,7 @@ On Error GoTo Procesotransf
             .Parameters("@empresa") = empresa
             .Parameters("@Asiento") = rsparimpo!Asiento
             .Parameters("@SubAsiento") = rsparimpo!SubAsiento
-            .Parameters("@Libro") = rsparimpo!libro
+            .Parameters("@Libro") = rsparimpo!Libro
             
             .Parameters("@Mes") = Format(Month(Fecha), "00")
             .Parameters("@Ano") = Year(Fecha)
@@ -1439,11 +1439,11 @@ On Error GoTo Procesotransf
         Exit Sub
 Procesotransf:
         Screen.MousePointer = 1
-        MsgBox Err.Description
+        MsgBox err.Description
         Exit Sub
         Resume
 End Sub
-Public Sub GeneraAsientoEnlineaTesor(Fecha As Date, empresa As String, m_opcion As String, Nrecibo As String, op As Integer, comprobconta As String, monedacodigo As String, cajabanco As String, m_tipovoucher As String)
+Public Sub GeneraAsientoEnlineaTesor(Fecha As Date, empresa As String, m_Opcion As String, Nrecibo As String, op As Integer, comprobconta As String, monedacodigo As String, cajabanco As String, m_tipovoucher As String)
 Dim rsparimpo As ADODB.Recordset
 Dim numerror As Integer
 Dim Comando As ADODB.Command
@@ -1454,7 +1454,7 @@ On Error GoTo Proceso
 
 Set rsparimpo = New ADODB.Recordset
 
-rsparimpo.Open "Select * From  ct_importartesoreria Where tipooperacion ='" & UCase(m_opcion) & "' ", VGCnxCT, adOpenKeyset, adLockReadOnly
+rsparimpo.Open "Select * From  ct_importartesoreria Where tipooperacion ='" & UCase(m_Opcion) & "' ", VGCnxCT, adOpenKeyset, adLockReadOnly
 If rsparimpo.RecordCount() > 0 Then
 
    Set Comando = New ADODB.Command
@@ -1469,7 +1469,7 @@ If rsparimpo.RecordCount() > 0 Then
         .Parameters("@empresa") = empresa
         .Parameters("@Asiento") = rsparimpo!Asiento
         .Parameters("@SubAsiento") = rsparimpo!SubAsiento
-        .Parameters("@Libro") = rsparimpo!libro
+        .Parameters("@Libro") = rsparimpo!Libro
          
         .Parameters("@Mes") = Format(Month(Fecha), "00")
         .Parameters("@Ano") = Year(Fecha)
@@ -1495,7 +1495,7 @@ Exit Sub
 Proceso:
    numerror = 1
    Screen.MousePointer = 1
-    MsgBox Err.Description
+    MsgBox err.Description
     VGCNx.RollbackTrans
    Exit Sub
    Resume
@@ -1596,7 +1596,7 @@ If ExisteElem(0, VGConfig, "si_empresaxusuario") Then
          xusuario = rs!usuariocodigo
          usuar = xusuario
          SQL = "Select a.* from EMPRESA a inner join si_empresaxusuario b "
-         SQL = SQL & " on a.emp_codigo collate Modern_Spanish_CI_AS=b.empresacodigo collate Modern_Spanish_CI_AS"
+         SQL = SQL & " on a.emp_codigo =b.empresacodigo"
          SQL = SQL & " where " & campo & "= 1 and b.usuariocodigo='" & xusuario & "'  order by EMP_CODIGO "
       End If
    End If
